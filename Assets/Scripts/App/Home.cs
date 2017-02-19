@@ -21,7 +21,7 @@ public class Home : HttpMonoBehaviour
 
     void LoginByToken()
     {
-        string token = DataHelper.GetInstance().LoadToken(dbManager);
+        string token = LocalToken();
         Debug.Log("current token is : " + token);
         if ("-".Equals(token))
         {
@@ -39,7 +39,7 @@ public class Home : HttpMonoBehaviour
         };
 
         dataType = 1;
-        HttpPost(Constants.COMMON_DISPATCH_URL, GUIDHelper.generate(), Constants.DEFAULT_TOKEN,
+        HttpPost(Constants.COMMON_DISPATCH_URL, GUIDHelper.generate(), token,
             Constants.API_ID_LOGIN_BY_TOKEN, req.ToByteArray());
     }
 
@@ -101,10 +101,8 @@ public class Home : HttpMonoBehaviour
 
     private void QueryDiamonAmount()
     {
-        HttpPost(Constants.COMMON_DISPATCH_URL, GUIDHelper.generate(), Constants.DEFAULT_TOKEN,
-            Constants.API_ID_LOGIN_BY_TOKEN, null);
+        HttpPost(Constants.COMMON_DISPATCH_URL, GUIDHelper.generate(), LocalToken(), Constants.API_QUERY_DIAMOND_AMOUNT, null);
     }
-
 
     private void QueryDiamonAmountCallback(byte[] data)
     {

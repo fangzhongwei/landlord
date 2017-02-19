@@ -28,9 +28,14 @@ namespace App.Base
             labelMessage = GameObject.FindWithTag("message").GetComponent<UILabel>();
         }
 
+        protected string LocalToken()
+        {
+            return DataHelper.GetInstance().LoadToken(dbManager);
+        }
+
         protected void ShowMessage(string code)
         {
-            if (code.Equals(ErrorCode.EC_SSO_SESSION_EXPIRED))
+            if (ErrorCode.EC_SSO_SESSION_EXPIRED.Equals(code) || ErrorCode.EC_SSO_TOKEN_DEVICE_MISMATCH.Equals(code))
             {
                 DataHelper.GetInstance().CleanProfile(dbManager);
                 return;

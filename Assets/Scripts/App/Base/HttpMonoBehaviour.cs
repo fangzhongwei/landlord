@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using App.Helper;
 using ConsoleApplication.Helper;
 using UnityEngine;
@@ -29,9 +28,14 @@ namespace App.Base
             labelMessage.text = "";
         }
 
+        protected string LocalToken()
+        {
+            return DataHelper.GetInstance().LoadToken(dbManager);
+        }
+
         protected void ShowMessage(string code)
         {
-            if (code.Equals(ErrorCode.EC_SSO_SESSION_EXPIRED))
+            if (ErrorCode.EC_SSO_SESSION_EXPIRED.Equals(code) || ErrorCode.EC_SSO_TOKEN_DEVICE_MISMATCH.Equals(code))
             {
                 DataHelper.GetInstance().CleanProfile(dbManager);
                 return;
@@ -46,7 +50,7 @@ namespace App.Base
 
         public void HttpPost(string uri, string traceId, string token, int actionId, byte[] data)
         {
-            Debug.Log(string.Format("http post:[uri:{0},traceId:{1},token:{2},actionId:{3},dataLenght:{4}]", uri, traceId, token, actionId, data.Length));
+            Debug.Log(string.Format("http post:[uri:{0},traceId:{1},token:{2},actionId:{3},dataLenght:{4}]", uri, traceId, token, actionId, data == null ? 0 : data.Length));
             byte[] encodeBytes = new byte[0];
             if (data != null && data.Length > 0)
             {
@@ -56,6 +60,7 @@ namespace App.Base
             request.SetHeader("TI", traceId);
             request.SetHeader("AI", actionId.ToString());
             request.SetHeader("TK", token);
+            request.SetHeader("FP", SystemInfo.deviceUniqueIdentifier);
             request.SetHeader("X-Real-Ip", "127.0.0.1");
             request.ConnectTimeout = TimeSpan.FromSeconds(30);
             request.RawData = encodeBytes;

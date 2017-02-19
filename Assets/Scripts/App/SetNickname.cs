@@ -24,7 +24,7 @@ public class SetNickname : HttpMonoBehaviour
 		
 	}
 
-    void OnClick()
+    public void OnClick()
     {
         buttonSubmit.enabled = false;
         string inputNicknameValue = inputNickname.value;

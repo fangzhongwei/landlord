@@ -20,6 +20,7 @@
 
         public const string EC_SSO_SESSION_EXPIRED = "EC_SSO_SESSION_EXPIRED";
         public const string EC_SSO_SESSION_REPELLED = "EC_SSO_SESSION_REPELLED";
+        public const string EC_SSO_TOKEN_DEVICE_MISMATCH = "EC_SSO_TOKEN_DEVICE_MISMATCH";
 
         public const string EC_GAME_INVALID_DATA = "EC_GAME_INVALID_DATA";
 
