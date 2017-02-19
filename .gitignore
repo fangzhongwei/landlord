@@ -1,0 +1,54 @@
+# =============== #
+# Unity generated #
+# =============== #
+Temp/
+Obj/
+UnityGenerated/
+Library/
+Assets/AssetStoreTools*
+
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+ExportedObj/
+*.svd
+*.userprefs
+*.csproj
+*.pidb
+*.suo
+*.sln
+*.user
+*.unityproj
+*.booproj
+
+# ============ #
+# OS generated #
+# ============ #
+._.DS_Store
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+ProtoLib/ProtoLib/bin
+ProtoLib/ProtoLib/obj
+ProtoLib/ProtoLib/Properties
+ProtoLib/ProtoLib/ProtoLib.csproj
+
+
+CompressionLib/CompressionLib/bin
+CompressionLib/CompressionLib/obj
+CompressionLib/CompressionLib/Properties
+CompressionLib/CompressionLib/CompressionLib.csproj
+
+
+.gitattributes
+TwoVsOne.CSharp.csproj.DotSettings
+
+.idea
+*.apk
+*.zip
