@@ -135,6 +135,11 @@ public class Home : HttpMonoBehaviour
         }
     }
 
+    public void StartGame()
+    {
+        SceneManager.LoadScene("game");
+    }
+
     private void ShowBalance(string diamondAmount)
     {
         labelDiamondAmount.text = diamondAmount;

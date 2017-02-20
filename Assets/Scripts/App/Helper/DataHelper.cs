@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using App.Base;
 using Google.Protobuf.Collections;
 using SimpleSQL;
 using UnityEngine;
@@ -23,26 +22,41 @@ namespace App.Helper
 
         public void CreateTables(SimpleSQLManager dbManager)
         {
-
-            SimpleDataTable dtConfigRow = dbManager.QueryGeneric("SELECT COUNT(*) FROM sqlite_master where type='table' and name='ConfigRow'");
+            SimpleDataTable dtConfigRow = dbManager.QueryGeneric("SELECT COUNT(*) CT FROM sqlite_master where type='table' and name='ConfigRow'");
             List<SimpleDataRow> simpleDataConfigRowRows = dtConfigRow.rows;
-            if (dtConfigRow == null || simpleDataConfigRowRows == null || simpleDataConfigRowRows.Count == 0)
+
+            Debug.Log("ConfigRow count:" + int.Parse(simpleDataConfigRowRows[0]["CT"].ToString()));
+            if (int.Parse(simpleDataConfigRowRows[0]["CT"].ToString()) == 0)
             {
                 dbManager.CreateTable<ConfigRow>();
+                Debug.Log("create table ConfigRow.");
             }
-            SimpleDataTable dtResourceRow = dbManager.QueryGeneric("SELECT COUNT(*) FROM sqlite_master where type='table' and name='ResourceRow'");
+            else
+            {
+                Debug.Log("table ConfigRow existed.");
+            }
+            SimpleDataTable dtResourceRow = dbManager.QueryGeneric("SELECT COUNT(*) CT FROM sqlite_master where type='table' and name='ResourceRow'");
             List<SimpleDataRow> simpleDataResourceRowRows = dtResourceRow.rows;
-            if (dtResourceRow == null || simpleDataResourceRowRows == null || simpleDataResourceRowRows.Count == 0)
+            if (int.Parse(simpleDataResourceRowRows[0]["CT"].ToString()) == 0)
             {
                 dbManager.CreateTable<ResourceRow>();
+                Debug.Log("create table ResourceRow.");
             }
-            SimpleDataTable dtSessionRow = dbManager.QueryGeneric("SELECT COUNT(*) FROM sqlite_master where type='table' and name='SessionRow'");
+            else
+            {
+                Debug.Log("table ResourceRow existed.");
+            }
+            SimpleDataTable dtSessionRow = dbManager.QueryGeneric("SELECT COUNT(*) CT FROM sqlite_master where type='table' and name='SessionRow'");
             List<SimpleDataRow> simpleDataSessionRowRows = dtSessionRow.rows;
-            if (dtSessionRow == null || simpleDataSessionRowRows == null || simpleDataSessionRowRows.Count == 0)
+            if (int.Parse(simpleDataSessionRowRows[0]["CT"].ToString()) == 0)
             {
                 dbManager.CreateTable<SessionRow>();
+                Debug.Log("create table SessionRow.");
             }
-
+            else
+            {
+                Debug.Log("table SessionRow existed.");
+            }
         }
 
         public ConfigRow LoadConfig(SimpleSQLManager dbManager)
@@ -66,12 +80,10 @@ namespace App.Helper
             ConfigRow configRow = new ConfigRow();
             configRow.Id = 1;
             configRow.ResourceVersion = 0;
-            // todo get systemLanguage
-            SystemLanguage systemLanguage = Application.systemLanguage;
-            //configRow.Lan = "zh";
-            configRow.Lan = systemLanguage.ToString();
+            //SystemLanguage systemLanguage = Application.systemLanguage;
+            //configRow.Lan = systemLanguage.ToString();
+            configRow.Lan = "Chinese";
             dbManager.Insert(configRow);
-            AppContext.GetInstance().SetLan(configRow.Lan);
             return configRow;
         }
 
@@ -91,9 +103,7 @@ namespace App.Helper
 
         public string GetDescByCode(SimpleSQLManager dbManager, string code, string lan)
         {
-            string format = string.Format("SELECT Desc FROM ResourceRow WHERE Code = '{0}' AND Lan = '{1}'", code, lan);
-            Debug.Log("sql:" + format);
-            SimpleDataTable dt = dbManager.QueryGeneric(format);
+            SimpleDataTable dt = dbManager.QueryGeneric(string.Format("SELECT Desc FROM ResourceRow WHERE Code = '{0}' AND Lan = '{1}'", code, lan));
             List<SimpleDataRow> simpleDataRows = dt.rows;
             if (dt == null || simpleDataRows == null || simpleDataRows.Count == 0)
             {
@@ -105,6 +115,7 @@ namespace App.Helper
         public void saveResource(SimpleSQLManager dbManager, ResourceResp response)
         {
             ConfigRow configRow = LoadConfig(dbManager);
+
             if (response.LatestVersion > configRow.ResourceVersion)
             {
                 dbManager.BeginTransaction();
@@ -139,6 +150,18 @@ namespace App.Helper
                 return "-";
             }
             return simpleDataRows[0]["Token"].ToString();
+        }
+
+        public string LoadLan(SimpleSQLManager dbManager)
+        {
+            SimpleDataTable dt = dbManager.QueryGeneric("SELECT Lan FROM ConfigRow WHERE Id = 1");
+            List<SimpleDataRow> simpleDataRows = dt.rows;
+            if (dt == null || simpleDataRows == null || simpleDataRows.Count == 0)
+            {
+                SaveDefaultConfig(dbManager);
+                return "Chinese";
+            }
+            return simpleDataRows[0]["Lan"].ToString();
         }
 
         public void CleanProfile(SimpleSQLManager dbManager)

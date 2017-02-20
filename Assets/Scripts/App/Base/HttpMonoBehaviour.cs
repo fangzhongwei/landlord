@@ -45,7 +45,7 @@ namespace App.Base
                 //SceneManager.LoadScene("login");
                 return;
             }
-            labelMessage.text = DataHelper.GetInstance().GetDescByCode(dbManager, code, AppContext.GetInstance().GetLan());
+            labelMessage.text = DataHelper.GetInstance().GetDescByCode(dbManager, code, DataHelper.GetInstance().LoadLan(dbManager));
         }
 
         public void HttpPost(int actionId, byte[] data)

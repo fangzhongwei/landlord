@@ -16,10 +16,7 @@ namespace App.Base
         protected SimpleSQLManager dbManager;
         protected void AddDBManager()
         {
-            gameObject.AddComponent<SimpleSQLManager>();
-            dbManager = gameObject.GetComponent<SimpleSQLManager>();
-            dbManager.databaseFile = Resources.Load(Constants.RESOURCES_DB_FILE_PATH) as TextAsset;
-            dbManager.overwriteIfExists = false;
+            dbManager = GameObject.FindGameObjectWithTag("appdbmanager").GetComponent<SimpleSQLManager>();
         }
 
         // Use this for initialization
@@ -45,7 +42,7 @@ namespace App.Base
                 //SceneManager.LoadScene("login");
                 return;
             }
-            labelMessage.text = DataHelper.GetInstance().GetDescByCode(dbManager, code, AppContext.GetInstance().GetLan());
+            labelMessage.text = DataHelper.GetInstance().GetDescByCode(dbManager, code, DataHelper.GetInstance().LoadLan(dbManager));
         }
 
         protected void StartWebSocket(string uri)

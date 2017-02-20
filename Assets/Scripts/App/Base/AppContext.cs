@@ -8,7 +8,6 @@ namespace App.Base
         private static readonly AppContext instance = new AppContext();
         private static string Token;
         private static string Key;
-        private static string Lan;
         private AppContext()
         {
         }
@@ -35,16 +34,6 @@ namespace App.Base
         public void SetToken(string token)
         {
             Token = token;
-        }
-
-        public string GetLan()
-        {
-            return Application.systemLanguage.ToString();
-        }
-
-        public void SetLan(string lan)
-        {
-            Lan = lan;
         }
     }
 }
