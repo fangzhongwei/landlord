@@ -2,7 +2,7 @@
 {
     public class Constants
     {
-        public const string COMMON_DISPATCH_URL = "http://192.168.3.246:9019/v1.0-route";
+        public const string COMMON_DISPATCH_URL = "http://172.16.7.114:9019/v1.0-route";
         public const string DEFAULT_TOKEN = "0";
         public const string VERSION = "1.0.0";
         public const string DEFAULT_KEY = "19B313BB9FD9F9A8A1D0E82590DD77B9";

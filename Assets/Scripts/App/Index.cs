@@ -10,10 +10,23 @@ public class Index : HttpMonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+	    GameObject.FindWithTag("message").GetComponent<UILabel>().text = "Index start.";
 	    AddDBManager();
-	    DataHelper.GetInstance().CreateTables(dbManager);
+	    GameObject.FindWithTag("message").GetComponent<UILabel>().text = "AddDBManager:" + dbManager;
+	    try
+	    {
+	        DataHelper.GetInstance().CreateTables(dbManager);
+	    }
+	    catch (Exception e)
+	    {
+	        GameObject.FindWithTag("message").GetComponent<UILabel>().text = "Ex:" + e.StackTrace;
+	        throw;
+	    }
+	    GameObject.FindWithTag("message").GetComponent<UILabel>().text = "CreateTables";
 	    FindBaseUis();
+	    GameObject.FindWithTag("message").GetComponent<UILabel>().text = "FindBaseUis";
 	    ConfigRow loadConfig = DataHelper.GetInstance().LoadConfig(dbManager);
+	    GameObject.FindWithTag("message").GetComponent<UILabel>().text = "loadConfig:" + loadConfig;
 
 	    if (loadConfig.ResourceVersion == 0)
 	    {
@@ -22,6 +35,7 @@ public class Index : HttpMonoBehaviour
 	            Param0 = loadConfig.Lan
 	        };
 	        HttpPost(Constants.API_LOAD_ALL_RESOURCES, req.ToByteArray());
+	        labelMessage.text = "API_LOAD_ALL_RESOURCES";
 	    }
 	    else
 	    {
@@ -30,8 +44,8 @@ public class Index : HttpMonoBehaviour
 	            Version = loadConfig.ResourceVersion,
 	            Lan = loadConfig.Lan
 	        };
-
 	        HttpPost(Constants.API_PULL_RESOURCES, req.ToByteArray());
+	        labelMessage.text = "API_PULL_RESOURCES";
 	    }
     }
 	

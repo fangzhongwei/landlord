@@ -28,9 +28,28 @@ namespace App
             labelSend = GameObject.FindWithTag("sendBtnLabel").GetComponent<UILabel>();
         }
 
-        // Update is called once per frame
-        void Update()
-        {
+        private float timer = 1.0f;
+        private bool timing;
+        private int seconds;
+
+        // Update is called once per frame
+        void Update() {
+            if (timing)
+            {
+                timer -= Time.deltaTime;
+                if (timer <= 0)
+                {
+                    seconds -= 1;
+                    labelSend.text = string.Format("重新发送({0}秒)", seconds);
+                    if (seconds == 0)
+                    {
+                        timing = false;
+                        labelSend.text ="获取验证码";
+                        buttonSend.enabled = true;
+                    }
+                    timer = 1.0f;
+                }
+            }
         }
 
         public void OnbtlClick()
@@ -88,7 +107,8 @@ namespace App
                             ShowMessage(ErrorCode.MSG_CODE_SENDED);
                             resend = true;
                             lastChannel = response.Channel;
-                            StartCoroutine(Timer());
+                            seconds = 60;
+                            timing = true;
                             break;
                         }
                     default:
@@ -101,27 +121,8 @@ namespace App
             }
         }
 
-        IEnumerator Timer()
-        {
-            int remainingSeconds = 60;
-            labelSend.text = string.Format("重新发送(${0}秒)", remainingSeconds);
-            while (true) {
-                yield return new WaitForSeconds(1.0f);
-                remainingSeconds -= 1;
-                if (remainingSeconds <= 0)
-                {
-                    labelSend.text = "获取验证码";
-                    buttonSend.enabled = true;
-                    CleanMessage();
-                    break;
-                }
-                labelSend.text = string.Format("重新发送(${0}秒)", remainingSeconds);
-            }
-        }
-
         public override void HttpFinished()
         {
-            buttonSend.enabled = true;
         }
     }
 }
