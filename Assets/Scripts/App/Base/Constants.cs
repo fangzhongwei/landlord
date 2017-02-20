@@ -14,9 +14,10 @@ namespace App.Base
         public const int API_ID_SEND_CODE = 1001;
         public const int API_ID_LOGIN = 1002;
         public const int API_ID_LOGIN_BY_TOKEN = 1003;
+        public const int API_ID_LOGOUT = 1004;
+        public const int API_UPDATE_NICKNAME = 1005;
         public const int API_LOAD_ALL_RESOURCES = 1006;
         public const int API_PULL_RESOURCES = 1007;
-        public const int API_UPDATE_NICKNAME = 1005;
 
         public const int API_QUERY_DIAMOND_AMOUNT = 2001;
         public const int API_GET_PRICE_LIST = 2002;

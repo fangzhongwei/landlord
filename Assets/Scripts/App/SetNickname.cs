@@ -46,8 +46,7 @@ public class SetNickname : HttpMonoBehaviour
             NickName = inputNicknameValue
         };
 
-        HttpPost(Constants.COMMON_DISPATCH_URL, GUIDHelper.generate(), DataHelper.GetInstance().LoadToken(dbManager),
-            Constants.API_UPDATE_NICKNAME, req.ToByteArray());
+        HttpPost(Constants.API_UPDATE_NICKNAME, req.ToByteArray());
     }
 
     public override void Callback(byte[] data)
@@ -78,15 +77,6 @@ public class SetNickname : HttpMonoBehaviour
                     break;
                 }
             }
-        }
-    }
-
-    private void OnDestroy()
-    {
-        if (dbManager != null)
-        {
-            dbManager.Close();
-            dbManager = null;
         }
     }
 

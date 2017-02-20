@@ -65,8 +65,7 @@ namespace App
 
             Debug.Log("SendLoginVerificationCodeReq : " + req);
 
-            HttpPost(Constants.COMMON_DISPATCH_URL, GUIDHelper.generate(), Constants.DEFAULT_TOKEN,
-                Constants.API_ID_SEND_CODE, req.ToByteArray());
+            HttpPost(Constants.API_ID_SEND_CODE, req.ToByteArray());
         }
 
         public override void Callback(byte[] data) { 

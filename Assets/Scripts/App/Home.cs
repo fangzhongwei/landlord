@@ -39,8 +39,7 @@ public class Home : HttpMonoBehaviour
         };
 
         dataType = 1;
-        HttpPost(Constants.COMMON_DISPATCH_URL, GUIDHelper.generate(), token,
-            Constants.API_ID_LOGIN_BY_TOKEN, req.ToByteArray());
+        HttpPost(Constants.API_ID_LOGIN_BY_TOKEN, req.ToByteArray());
     }
 
     // Update is called once per frame
@@ -101,7 +100,7 @@ public class Home : HttpMonoBehaviour
 
     private void QueryDiamonAmount()
     {
-        HttpPost(Constants.COMMON_DISPATCH_URL, GUIDHelper.generate(), LocalToken(), Constants.API_QUERY_DIAMOND_AMOUNT, null);
+        HttpPost(Constants.API_QUERY_DIAMOND_AMOUNT, null);
     }
 
     private void QueryDiamonAmountCallback(byte[] data)
@@ -139,15 +138,6 @@ public class Home : HttpMonoBehaviour
     private void ShowBalance(string diamondAmount)
     {
         labelDiamondAmount.text = diamondAmount;
-    }
-
-    private void OnDestroy()
-    {
-        if (dbManager != null)
-        {
-            dbManager.Close();
-            dbManager.Dispose();
-        }
     }
 
     public override void HttpFinished()

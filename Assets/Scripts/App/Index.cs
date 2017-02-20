@@ -21,8 +21,7 @@ public class Index : HttpMonoBehaviour
 	        {
 	            Param0 = loadConfig.Lan
 	        };
-	        HttpPost(Constants.COMMON_DISPATCH_URL, GUIDHelper.generate(), Constants.DEFAULT_TOKEN,
-	            Constants.API_LOAD_ALL_RESOURCES, req.ToByteArray());
+	        HttpPost(Constants.API_LOAD_ALL_RESOURCES, req.ToByteArray());
 	    }
 	    else
 	    {
@@ -32,8 +31,7 @@ public class Index : HttpMonoBehaviour
 	            Lan = loadConfig.Lan
 	        };
 
-	        HttpPost(Constants.COMMON_DISPATCH_URL, GUIDHelper.generate(), Constants.DEFAULT_TOKEN,
-	            Constants.API_PULL_RESOURCES, req.ToByteArray());
+	        HttpPost(Constants.API_PULL_RESOURCES, req.ToByteArray());
 	    }
     }
 	

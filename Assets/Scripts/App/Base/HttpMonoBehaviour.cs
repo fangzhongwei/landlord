@@ -48,23 +48,30 @@ namespace App.Base
             labelMessage.text = DataHelper.GetInstance().GetDescByCode(dbManager, code, AppContext.GetInstance().GetLan());
         }
 
-        public void HttpPost(string uri, string traceId, string token, int actionId, byte[] data)
+        public void HttpPost(int actionId, byte[] data)
         {
-            Debug.Log(string.Format("http post:[uri:{0},traceId:{1},token:{2},actionId:{3},dataLenght:{4}]", uri, traceId, token, actionId, data == null ? 0 : data.Length));
+            Debug.Log(string.Format("http post:[actionId:{0},dataLenght:{1}]", actionId, data == null ? 0 : data.Length));
             byte[] encodeBytes = new byte[0];
             if (data != null && data.Length > 0)
             {
                 encodeBytes = DESHelper.EncodeBytes(GZipHelper.compress(data), AppContext.GetInstance().getDesKey());
             }
-            HTTPRequest request = new HTTPRequest(new Uri(uri), HTTPMethods.Post, OnRequestFinished);
-            request.SetHeader("TI", traceId);
+
+            HTTPRequest request = new HTTPRequest(new Uri(Constants.COMMON_DISPATCH_URL), HTTPMethods.Post, OnRequestFinished);
+            request.SetHeader("TI", GUIDHelper.generate());
             request.SetHeader("AI", actionId.ToString());
-            request.SetHeader("TK", token);
+            request.SetHeader("TK", ignoreSession(actionId) ? Constants.DEFAULT_TOKEN: DataHelper.GetInstance().LoadToken(dbManager));
             request.SetHeader("FP", SystemInfo.deviceUniqueIdentifier);
             request.SetHeader("X-Real-Ip", "127.0.0.1");
             request.ConnectTimeout = TimeSpan.FromSeconds(30);
             request.RawData = encodeBytes;
             request.Send();
+        }
+
+        private bool ignoreSession(int apiId)
+        {
+            return apiId == Constants.API_ID_LOGIN || Constants.API_ID_SEND_CODE == apiId ||
+                   Constants.API_LOAD_ALL_RESOURCES == apiId || Constants.API_PULL_RESOURCES == apiId;
         }
 
         void OnRequestFinished(HTTPRequest req, HTTPResponse resp)

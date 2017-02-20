@@ -74,8 +74,7 @@ namespace App
                 Version = Constants.VERSION
             };
 
-            HttpPost(Constants.COMMON_DISPATCH_URL, GUIDHelper.generate(), Constants.DEFAULT_TOKEN,
-                Constants.API_ID_LOGIN, req.ToByteArray());
+            HttpPost(Constants.API_ID_LOGIN, req.ToByteArray());
         }
 
         public override void Callback(byte[] data)
