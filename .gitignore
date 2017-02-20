@@ -2,6 +2,7 @@
 # Unity generated #
 # =============== #
 Temp/
+landlord_Data/
 Obj/
 UnityGenerated/
 Library/
@@ -52,3 +53,4 @@ TwoVsOne.CSharp.csproj.DotSettings
 .idea
 *.apk
 *.zip
+*.exe
