@@ -40,15 +40,12 @@ ProtoLib/ProtoLib/obj
 ProtoLib/ProtoLib/Properties
 ProtoLib/ProtoLib/ProtoLib.csproj
 
-
 CompressionLib/CompressionLib/bin
 CompressionLib/CompressionLib/obj
 CompressionLib/CompressionLib/Properties
 CompressionLib/CompressionLib/CompressionLib.csproj
 
-
 .gitattributes
-TwoVsOne.CSharp.csproj.DotSettings
 
 .idea
 *.apk

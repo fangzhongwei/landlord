@@ -6,6 +6,11 @@ namespace App.Helper
     {
         public static int getDeviceType()
         {
+            if (1 == 1)
+            {
+                return 3;
+            }
+
             string operatingSystem = SystemInfo.operatingSystem.ToLower();
             if (operatingSystem.Contains("ios"))
             {

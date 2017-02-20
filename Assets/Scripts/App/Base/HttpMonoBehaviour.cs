@@ -35,6 +35,7 @@ namespace App.Base
 
         protected void ShowMessage(string code)
         {
+            labelMessage.text = code;
             if (ErrorCode.EC_SSO_SESSION_EXPIRED.Equals(code) || ErrorCode.EC_SSO_TOKEN_DEVICE_MISMATCH.Equals(code))
             {
                 DataHelper.GetInstance().CleanProfile(dbManager);
