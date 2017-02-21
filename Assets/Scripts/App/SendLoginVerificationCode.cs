@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using App.Base;
 using App.Helper;
 using Google.Protobuf;
@@ -78,7 +77,7 @@ namespace App
                 DeviceType = DeviceHelper.getDeviceType(),
                 FingerPrint = SystemInfo.deviceUniqueIdentifier,
                 Mobile = mobile,
-                Resend = resend,
+                Resend = resend ? "1" : "0",
                 LastChannel = lastChannel
             };
 
