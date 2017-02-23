@@ -7,7 +7,7 @@ public class MyLog : MonoBehaviour
     Queue myLogQueue = new Queue();
 
     void Start(){
-        Debug.Log("Log1");
+        Debug.Log("Log will show on screen.");
     }
 
     void OnEnable () {
