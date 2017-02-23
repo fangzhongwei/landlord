@@ -6,37 +6,33 @@ using UnityEngine;
 public class OutLog : MonoBehaviour {
     static List<string> mLines = new List<string>();
     static List<string> mWriteTxt = new List<string>();
-    private string outpath;
+//    private string outpath;
     void Start () {
         //Application.persistentDataPath Unity中只有这个路径是既可以读也可以写的。
-        outpath = Application.persistentDataPath + "/outLog.txt";
+//        outpath = Application.persistentDataPath + "/outLog.txt";
         //每次启动客户端删除之前保存的Log
-        if (File.Exists (outpath)) {
-            File.Delete (outpath);
-        }
+//        if (File.Exists (outpath)) {
+//            File.Delete (outpath);
+//        }
         //在这里做一个Log的监听
         Application.RegisterLogCallback(HandleLog);
-        //一个输出
-        Debug.Log("outpath:" + outpath);
-        GameObject.FindWithTag("message").GetComponent<UILabel>().text = outpath;
-        Debug.Log("This debug info from OutLog.");
     }
 
     void Update ()
     {
-        //因为写入文件的操作必须在主线程中完成，所以在Update中哦给你写入文件。
-        if(mWriteTxt.Count > 0)
-        {
-            string[] temp = mWriteTxt.ToArray();
-            foreach(string t in temp)
-            {
-                using(StreamWriter writer = new StreamWriter(outpath, true, Encoding.UTF8))
-                {
-                    writer.WriteLine(t);
-                }
-                mWriteTxt.Remove(t);
-            }
-        }
+//        //因为写入文件的操作必须在主线程中完成，所以在Update中哦给你写入文件。
+//        if(mWriteTxt.Count > 0)
+//        {
+//            string[] temp = mWriteTxt.ToArray();
+//            foreach(string t in temp)
+//            {
+//                using(StreamWriter writer = new StreamWriter(outpath, true, Encoding.UTF8))
+//                {
+//                    writer.WriteLine(t);
+//                }
+//                mWriteTxt.Remove(t);
+//            }
+//        }
     }
 
     void HandleLog(string logString, string stackTrace, LogType type)
@@ -68,7 +64,7 @@ public class OutLog : MonoBehaviour {
         {
             if (mLines.Count > 20)
             {
-                mLines.RemoveAt(0);
+//                mLines.RemoveAt(0);
             }
             mLines.Add(text);
 

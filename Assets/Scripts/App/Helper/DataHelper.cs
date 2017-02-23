@@ -25,15 +25,10 @@ namespace App.Helper
             SimpleDataTable dtConfigRow = dbManager.QueryGeneric("SELECT COUNT(*) CT FROM sqlite_master where type='table' and name='ConfigRow'");
             List<SimpleDataRow> simpleDataConfigRowRows = dtConfigRow.rows;
 
-            Debug.Log("ConfigRow count:" + int.Parse(simpleDataConfigRowRows[0]["CT"].ToString()));
             if (int.Parse(simpleDataConfigRowRows[0]["CT"].ToString()) == 0)
             {
                 dbManager.CreateTable<ConfigRow>();
                 Debug.Log("create table ConfigRow.");
-            }
-            else
-            {
-                Debug.Log("table ConfigRow existed.");
             }
             SimpleDataTable dtResourceRow = dbManager.QueryGeneric("SELECT COUNT(*) CT FROM sqlite_master where type='table' and name='ResourceRow'");
             List<SimpleDataRow> simpleDataResourceRowRows = dtResourceRow.rows;
@@ -42,20 +37,12 @@ namespace App.Helper
                 dbManager.CreateTable<ResourceRow>();
                 Debug.Log("create table ResourceRow.");
             }
-            else
-            {
-                Debug.Log("table ResourceRow existed.");
-            }
             SimpleDataTable dtSessionRow = dbManager.QueryGeneric("SELECT COUNT(*) CT FROM sqlite_master where type='table' and name='SessionRow'");
             List<SimpleDataRow> simpleDataSessionRowRows = dtSessionRow.rows;
             if (int.Parse(simpleDataSessionRowRows[0]["CT"].ToString()) == 0)
             {
                 dbManager.CreateTable<SessionRow>();
                 Debug.Log("create table SessionRow.");
-            }
-            else
-            {
-                Debug.Log("table SessionRow existed.");
             }
         }
 

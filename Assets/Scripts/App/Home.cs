@@ -22,7 +22,6 @@ public class Home : HttpMonoBehaviour
     void LoginByToken()
     {
         string token = LocalToken();
-        Debug.Log("current token is : " + token);
         if ("-".Equals(token))
         {
             SceneManager.LoadScene("login");

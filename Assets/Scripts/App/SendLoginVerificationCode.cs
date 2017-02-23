@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using App.Base;
 using App.Helper;
 using Google.Protobuf;
+using ProtoBuf;
 using UnityEngine;
 
 namespace App
@@ -22,7 +24,8 @@ namespace App
             resend = false;
             lastChannel = 0;
             inputMobile = GameObject.FindWithTag("mobile").GetComponent<UIInput>();
-            inputMobile.value = "15881126718";
+            inputMobile.value = "17381906228";
+            inputMobile.value = "17381906228";
             buttonSend = GameObject.FindWithTag("send").GetComponent<UIButton>();
             labelSend = GameObject.FindWithTag("sendBtnLabel").GetComponent<UILabel>();
         }
@@ -32,9 +35,10 @@ namespace App
         private int seconds;
 
         // Update is called once per frame
-        void Update() {
+        void LateUpdate() {
             if (timing)
             {
+                buttonSend.enabled = false;
                 timer -= Time.deltaTime;
                 if (timer <= 0)
                 {
@@ -72,18 +76,33 @@ namespace App
                 return;
             }
 
-            SendLoginVerificationCodeReq req = new SendLoginVerificationCodeReq
+            string s = resend ? "1" : "0";
+//            SendLoginVerificationCodeReq req = new SendLoginVerificationCodeReq
+//            {
+//                DeviceType = DeviceHelper.getDeviceType(),
+//                FingerPrint = SystemInfo.deviceUniqueIdentifier,
+//                Mobile = mobile,
+//                Resend = s,
+//                LastChannel = lastChannel
+//            };
+
+            SC sc = new SC()
             {
-                DeviceType = DeviceHelper.getDeviceType(),
-                FingerPrint = SystemInfo.deviceUniqueIdentifier,
-                Mobile = mobile,
-                Resend = resend ? "1" : "0",
-                LastChannel = lastChannel
+                deviceType = DeviceHelper.getDeviceType(),
+                fingerPrint = SystemInfo.deviceUniqueIdentifier,
+                mobile = mobile,
+                resend = s,
+                lastChannel = lastChannel
             };
+            byte[] data;
+            using(var ms = new MemoryStream()) {
+                Serializer.Serialize(ms, sc);
+                data = ms.ToArray();
+            }
 
-            Debug.Log("SendLoginVerificationCodeReq : " + req);
+            Debug.Log("Use Protobuf-net : " + sc);
 
-            HttpPost(Constants.API_ID_SEND_CODE, req.ToByteArray());
+            HttpPost(Constants.API_ID_SEND_CODE, data);
         }
 
         public override void Callback(byte[] data) { 
@@ -122,6 +141,7 @@ namespace App
 
         public override void HttpFinished()
         {
+            buttonSend.enabled = true;
         }
     }
 }

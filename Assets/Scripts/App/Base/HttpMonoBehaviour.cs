@@ -1,9 +1,9 @@
 ﻿using System;
 using App.Helper;
-using ConsoleApplication.Helper;
-using UnityEngine;
 using BestHTTP;
+using ConsoleApplication.Helper;
 using SimpleSQL;
+using UnityEngine;
 
 namespace App.Base
 {
@@ -50,7 +50,7 @@ namespace App.Base
 
         public void HttpPost(int actionId, byte[] data)
         {
-            Debug.Log(string.Format("http post:[actionId:{0},dataLenght:{1}]", actionId, data == null ? 0 : data.Length));
+            //Debug.Log(string.Format("http post:[actionId:{0},dataLenght:{1}]", actionId, data == null ? 0 : data.Length));
             byte[] encodeBytes = new byte[0];
             if (data != null && data.Length > 0)
             {
@@ -62,7 +62,6 @@ namespace App.Base
             request.SetHeader("AI", actionId.ToString());
             request.SetHeader("TK", ignoreSession(actionId) ? Constants.DEFAULT_TOKEN: DataHelper.GetInstance().LoadToken(dbManager));
             request.SetHeader("FP", SystemInfo.deviceUniqueIdentifier);
-            request.SetHeader("X-Real-Ip", "127.0.0.1");
             request.ConnectTimeout = TimeSpan.FromSeconds(30);
             request.RawData = encodeBytes;
             request.Send();
@@ -89,7 +88,7 @@ namespace App.Base
                             isNormal = "true".Equals(resp.Headers["normal"][0]);
                         }
                         byte[] protoBytes = GZipHelper.Decompress(DESHelper.DecodeBytes(resp.Data, AppContext.GetInstance().getDesKey()));
-                        Debug.Log("isNormal:" + isNormal);
+                        //Debug.Log("isNormal:" + isNormal);
                         if (!isNormal)
                         {
                             SimpleApiResponse response = null;
