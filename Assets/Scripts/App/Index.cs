@@ -14,6 +14,8 @@ public class Index : HttpMonoBehaviour
 	    DataHelper.GetInstance().CreateTables(dbManager);
 	    FindBaseUis();
 
+	    string a = null;
+
         PullResource();
     }
 

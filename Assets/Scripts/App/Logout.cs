@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using App.Base;
 using App.Helper;
 using UnityEngine;
