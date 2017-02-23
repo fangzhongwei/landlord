@@ -33,8 +33,8 @@ namespace App
         {
             CleanMessage();
             buttonLogin.enabled = false;
-            string mobile = inputMobile.value;
-            string code = inputCode.value;
+            string mobile = inputMobile.value.Trim();
+            string code = inputCode.value.Trim();
 
             if (mobile == null || "".Equals(mobile))
             {

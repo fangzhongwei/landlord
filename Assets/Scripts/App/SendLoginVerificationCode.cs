@@ -60,7 +60,7 @@ namespace App
             CleanMessage();
             buttonSend.enabled = false;
 
-            string mobile = inputMobile.value;
+            string mobile = inputMobile.value.Trim();
 
             if (mobile == null || "".Equals(mobile))
             {
