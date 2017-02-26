@@ -16,11 +16,11 @@ public class Game : WebSocketMonoBehaviour {
 	    FindBaseUis();
 
 	    SeatWatch watch = new SeatWatch();
-	    watch.cards = "411,311,211,412,312,212,112,413,313,213,113,414,314,214,114,415,315,215,115,516,517";
+	    watch.cards = "311,211,412,312,212,112,413,313,213,113,414,314,214,114,415,315,215,115,516,517";
 	    //watch.cards = "411,311,211,412,312,212,112,413,313,213,113";
 	    //.cards = "411,311,211,412,312";
 	    //watch.cards = "516,517";
-	    RenderWatch(watch);
+//	    RenderWatch(watch);
 	    //StartWebSocket("ws://127.0.0.1:9000/greeter");
 	}
 
@@ -133,13 +133,19 @@ public class Game : WebSocketMonoBehaviour {
         {
             cardObj = GameObject.FindGameObjectWithTag(CardHelper.GetInstance().GetTag(int.Parse(cardIdArray[i])));
 
-            Decimal z = new Decimal(0.0001f) * new Decimal( -i);
+            Decimal z = new Decimal(1.0f) * new Decimal( length - i -1);
             cardObj.transform.position = new Vector3((i - mid) * 1.0f, 0, (float)z);
             cardObj.GetComponent<BoxCollider>().size = new Vector3(1.95f, 2.9f, 0.01f);
             cardObj.transform.localScale = new Vector3(2, 2, 2);
             cardObj.transform.Rotate(new Vector3(180, 0, 0));
             print(cardObj.tag + ",z:" + cardObj.transform.position.z);
-            cardObj.AddComponent<TouchAction>();
+            TouchAction touchAction = cardObj.AddComponent<TouchAction>();
+            touchAction.idx = i;
+//            base.OnHover()
+//            DraggablePanel
+//            UISprite
         }
     }
+
+
 }

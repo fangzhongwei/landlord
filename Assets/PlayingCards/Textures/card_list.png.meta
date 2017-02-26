@@ -1,7 +1,69 @@
 fileFormatVersion: 2
 guid: e923c6082eef89646b87f3cce6960c60
+timeCreated: 1488101276
+licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: card_list_0
+    21300002: card_list_1
+    21300004: card_list_2
+    21300006: card_list_3
+    21300008: card_list_4
+    21300010: card_list_5
+    21300012: card_list_6
+    21300014: card_list_7
+    21300016: card_list_8
+    21300018: card_list_9
+    21300020: card_list_10
+    21300022: card_list_11
+    21300024: card_list_12
+    21300026: card_list_13
+    21300028: card_list_14
+    21300030: card_list_15
+    21300032: card_list_16
+    21300034: card_list_17
+    21300036: card_list_18
+    21300038: card_list_19
+    21300040: card_list_20
+    21300042: card_list_21
+    21300044: card_list_22
+    21300046: card_list_23
+    21300048: card_list_24
+    21300050: card_list_25
+    21300052: card_list_26
+    21300054: card_list_27
+    21300056: card_list_28
+    21300058: card_list_29
+    21300060: card_list_30
+    21300062: card_list_31
+    21300064: card_list_32
+    21300066: card_list_33
+    21300068: card_list_34
+    21300070: card_list_35
+    21300072: card_list_36
+    21300074: card_list_37
+    21300076: card_list_38
+    21300078: card_list_39
+    21300080: card_list_40
+    21300082: card_list_41
+    21300084: card_list_42
+    21300086: card_list_43
+    21300088: card_list_44
+    21300090: card_list_45
+    21300092: card_list_46
+    21300094: card_list_47
+    21300096: card_list_48
+    21300098: card_list_49
+    21300100: card_list_50
+    21300102: card_list_51
+    21300104: card_list_52
+    21300106: card_list_53
+    21300108: card_list_54
+    21300110: card_list_55
+    21300112: card_list_56
+    21300114: card_list_57
+    21300116: card_list_58
+    21300118: card_list_59
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -17,7 +79,7 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
-  isReadable: 0
+  isReadable: 1
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -40,7 +102,7 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaUsage: 1
-  alphaIsTransparency: 1
+  alphaIsTransparency: 0
   spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
@@ -80,6 +142,14 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
   spriteSheet:
     serializedVersion: 2
     sprites:

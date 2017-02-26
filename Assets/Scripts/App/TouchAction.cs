@@ -4,10 +4,20 @@ using UnityEngine;
 public class TouchAction : MonoBehaviour {
 
     public bool ready2go { get; set; }
+    public int idx { get; set; }
+
+    void Awake ()
+    {
+        UIEventListener.Get(gameObject).onClick = ObjOnClick;
+    }
+
+    void ObjOnClick(GameObject go)
+    {
+        //
+    }
 
     // Update is called once per frame
     void Update () {
-
         //绘制射线为红色。方便调试
         //Debug.DrawLine(Target.transform.position, transform.position, Color.red);
         //Debug.DrawRay();
@@ -15,24 +25,20 @@ public class TouchAction : MonoBehaviour {
 
     private void OnMouseEnter()
     {
-        TouchContext.GetInstance().Add(gameObject);
-
-        //gameObject.GetComponent<Light>().enabled = true;
-        //GetComponent<Renderer>().material.color = Color.red;
-        //shader
         Debug.Log("OnMouseEnter:" + tag);
-        //GameObject.FindGameObjectWithTag(tag + "Face").GetComponent<SpriteRenderer>().color = Color.red;
-        transform.Find("Front").gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        TouchManager.GetInstance().OnFocus(transform);
     }
 
     private void OnMouseOver()
     {
-        Debug.Log("OnMouseOver22:" + tag);
+        Debug.Log("OnMouseOver:" + tag);
+        //TouchManager.GetInstance().OnFocus(transform);
     }
 
     private void OnMouseDrag()
     {
         Debug.Log("OnMouseDrag:" + tag);
+        //TouchManager.GetInstance().OnFocus(transform);
     }
 
     private void OnMouseUp()
@@ -43,10 +49,12 @@ public class TouchAction : MonoBehaviour {
     private void OnMouseExit()
     {
         Debug.Log("OnMouseExit:" + tag);
+       TouchManager.GetInstance().OnBlur(transform);
     }
 
     private void OnMouseUpAsButton()
     {
         Debug.Log("OnMouseUpAsButton:" + tag);
     }
+
 }
