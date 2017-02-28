@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace App
 {
-    public class SendLoginVerificationCode : HttpMonoBehaviour
+    public class SendCode : HttpMonoBehaviour
     {
         private UIInput inputMobile;
         private UIButton buttonSend;

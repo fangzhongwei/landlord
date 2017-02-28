@@ -139,8 +139,7 @@ public class Game : WebSocketMonoBehaviour {
             cardObj.transform.localScale = new Vector3(2, 2, 2);
             cardObj.transform.Rotate(new Vector3(180, 0, 0));
             print(cardObj.tag + ",z:" + cardObj.transform.position.z);
-            TouchAction touchAction = cardObj.AddComponent<TouchAction>();
-            touchAction.idx = i;
+            cardObj.AddComponent<CardAttr>().idx = i;
 //            base.OnHover()
 //            DraggablePanel
 //            UISprite

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using App.Base;
+﻿using App.Base;
 using UnityEngine;
 
 public class TouchDetect : MonoBehaviour {

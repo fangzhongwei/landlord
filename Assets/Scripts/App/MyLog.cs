@@ -7,7 +7,6 @@ public class MyLog : MonoBehaviour
     Queue myLogQueue = new Queue();
 
     void Start(){
-        Debug.Log("Log will show on screen.");
     }
 
     void OnEnable () {
@@ -34,6 +33,7 @@ public class MyLog : MonoBehaviour
     }
 
     void OnGUI () {
+        GUI.color = Color.black;
         GUILayout.Label(myLog);
     }
 }
