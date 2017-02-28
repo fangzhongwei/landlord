@@ -33,7 +33,7 @@ namespace App.Base
                 int lastIdx = touchedForms[touchedForms.Count - 1].GetComponent<CardAttr>().idx;
                 if (Math.Abs(idx - lastIdx) == 1)
                 {
-                    if (touchedForms[touchedForms.Count - 2].gameObject.tag.Equals(go.tag))
+                    if (touchedForms[touchedForms.Count - 2].gameObject.name.Equals(go.name))
                     {
                         Remove(touchedForms[touchedForms.Count - 1]);
                     }
@@ -47,7 +47,7 @@ namespace App.Base
 
         private void Active(Transform t)
         {
-            if (touchedForms.Count == 0 || !touchedForms[touchedForms.Count - 1].gameObject.tag.Equals(t.gameObject.tag))
+            if (touchedForms.Count == 0 || !touchedForms[touchedForms.Count - 1].gameObject.name.Equals(t.gameObject.name))
             {
                 touchedForms.Add(t);
                 ChangeColor(t, Color.blue);
