@@ -5,7 +5,7 @@ using App.VO;
 using Assets.Scripts.App.Helper;
 using UnityEngine;
 
-public class Controller : WebSocketMonoBehaviour {
+public class GameController : WebSocketMonoBehaviour {
 
     public float timer = 1.0f;
 
