@@ -31,7 +31,6 @@ namespace App.Base
             else
             {
                 int lastIdx = touchedForms[touchedForms.Count - 1].GetComponent<CardAttr>().idx;
-                Debug.Log(string.Format("lastIdx:{0}, idx:{1}", lastIdx, idx));
                 if (Math.Abs(idx - lastIdx) == 1)
                 {
                     if (touchedForms[touchedForms.Count - 2].gameObject.tag.Equals(go.tag))
@@ -50,7 +49,6 @@ namespace App.Base
         {
             if (touchedForms.Count == 0 || !touchedForms[touchedForms.Count - 1].gameObject.tag.Equals(t.gameObject.tag))
             {
-                Debug.Log("active : " + t.transform.tag);
                 touchedForms.Add(t);
                 ChangeColor(t, Color.blue);
             }

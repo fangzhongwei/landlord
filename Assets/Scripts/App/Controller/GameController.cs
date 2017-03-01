@@ -141,7 +141,6 @@ public class GameController : WebSocketMonoBehaviour {
             cardObj.transform.localPosition = lp;
             cardObj.GetComponent<CardAttr>().idx = i;
             cardObj.GetComponent<CardAttr>().ready2go = false;
-            Debug.Log(string.Format("{0}, postion:{1}", cardObj.tag, cardObj.transform.position));
         }
     }
 }
