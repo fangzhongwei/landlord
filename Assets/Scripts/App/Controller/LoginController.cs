@@ -85,6 +85,7 @@ public class LoginController : HttpMonoBehaviour
         }
         catch (Exception)
         {
+            Debug.LogError("LoginResp parse error");
             ShowMessage(ErrorCode.EC_PARSE_DATA_ERROR);
         }
 

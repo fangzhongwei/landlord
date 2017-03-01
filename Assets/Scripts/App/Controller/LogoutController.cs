@@ -37,6 +37,7 @@ public class LogoutController : HttpMonoBehaviour
         }
         catch (Exception)
         {
+            Debug.LogError("SimpleApiResponse parse error");
             ShowMessage(ErrorCode.EC_PARSE_DATA_ERROR);
         }
 

@@ -91,13 +91,6 @@ public class SendCodeController : HttpMonoBehaviour
             resend = s,
             lastChannel = lastChannel
         };
-        byte[] data;
-        using(var ms = new MemoryStream()) {
-            Serializer.Serialize(ms, sc);
-            data = ms.ToArray();
-        }
-
-        Debug.Log("Use Protobuf-net : " + sc);
 
         HttpPost(Constants.API_ID_SEND_CODE, ProtoHelper.Proto2Bytes(sc));
     }
@@ -110,6 +103,7 @@ public class SendCodeController : HttpMonoBehaviour
         }
         catch (Exception)
         {
+            Debug.LogError("SendCodeResp parse error");
             ShowMessage(ErrorCode.EC_PARSE_DATA_ERROR);
         }
 

@@ -70,6 +70,7 @@ public class HomeController : HttpMonoBehaviour
         }
         catch (Exception)
         {
+            Debug.LogError("LoginResponse parse error");
             ShowMessage(ErrorCode.EC_PARSE_DATA_ERROR);
         }
 
@@ -113,6 +114,7 @@ public class HomeController : HttpMonoBehaviour
         }
         catch (Exception)
         {
+            Debug.LogError("SimpleApiResponse parse error");
             ShowMessage(ErrorCode.EC_PARSE_DATA_ERROR);
         }
 

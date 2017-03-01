@@ -106,6 +106,7 @@ namespace App.Base
             }
             catch (Exception)
             {
+                Debug.LogError("SocketResponse parse error");
                 ShowMessage(ErrorCode.EC_PARSE_DATA_ERROR);
                 DataHelper.GetInstance().CleanProfile(dbManager);
                 return;

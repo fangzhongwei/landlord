@@ -101,6 +101,7 @@ namespace App.Base
                             }
                             catch (Exception)
                             {
+                                Debug.LogError("HttpMonoBehaviour SimpleApiResponse parse error");
                                 ShowMessage(ErrorCode.EC_PARSE_DATA_ERROR);
                             }
                             if (response != null)

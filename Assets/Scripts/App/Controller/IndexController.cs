@@ -46,9 +46,9 @@ public class IndexController : HttpMonoBehaviour
         {
             response = Serializer.Deserialize<ResourceResp>(new MemoryStream(data));
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Debug.LogError(e);
+            Debug.LogError("ResourceResp parse error");
             ShowMessage(ErrorCode.EC_PARSE_DATA_ERROR);
         }
 
