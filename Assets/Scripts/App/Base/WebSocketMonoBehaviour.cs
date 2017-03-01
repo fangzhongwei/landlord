@@ -1,8 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using App.Helper;
 using BestHTTP.WebSocket;
 using ConsoleApplication.Helper;
+using ProtoBuf;
 using SimpleSQL;
 using UnityEngine;
 
@@ -100,7 +102,7 @@ namespace App.Base
             try
             {
                 buffer = GZipHelper.Decompress(DESHelper.DecodeBytes(buffer, AppContext.GetInstance().getDesKey()));
-                socketResponse = SocketResponse.Parser.ParseFrom(buffer);
+                socketResponse = Serializer.Deserialize<SocketResponse>(new MemoryStream(buffer));
             }
             catch (Exception)
             {
@@ -111,7 +113,7 @@ namespace App.Base
 
             if (socketResponse != null)
             {
-                String code = socketResponse.P1;
+                String code = socketResponse.p1;
                 if (!"0".Equals(code))
                 {
                     ShowMessage(code);

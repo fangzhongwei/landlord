@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using App.Helper;
 using BestHTTP;
 using ConsoleApplication.Helper;
+using ProtoBuf;
 using SimpleSQL;
 using UnityEngine;
 
@@ -94,7 +96,7 @@ namespace App.Base
                             SimpleApiResponse response = null;
                             try
                             {
-                                response = SimpleApiResponse.Parser.ParseFrom(protoBytes);
+                                response = Serializer.Deserialize<SimpleApiResponse>(new MemoryStream(protoBytes));
                                 Debug.Log("error response:" + response);
                             }
                             catch (Exception)
@@ -103,7 +105,7 @@ namespace App.Base
                             }
                             if (response != null)
                             {
-                                ShowMessage(response.Code);
+                                ShowMessage(response.code);
                             }
                         }
                         else

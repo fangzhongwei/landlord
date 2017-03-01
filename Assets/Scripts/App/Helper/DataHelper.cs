@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Google.Protobuf.Collections;
 using SimpleSQL;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -80,10 +79,10 @@ namespace App.Helper
             dbManager.Execute("DELETE FROM SessionRow WHERE Id = 1");
             SessionRow row = new SessionRow();
             row.Id = 1;
-            row.Token = response.Token;
-            row.Mobile = response.Mobile;
-            row.Status = response.Status;
-            row.NickName = response.NickName;
+            row.Token = response.token;
+            row.Mobile = response.mobile;
+            row.Status = response.status;
+            row.NickName = response.nickName;
             dbManager.Insert(row);
             dbManager.Commit();
         }
@@ -103,28 +102,28 @@ namespace App.Helper
         {
             ConfigRow configRow = LoadConfig(dbManager);
 
-            if (response.LatestVersion > configRow.ResourceVersion)
+            if (response.latestVersion > configRow.ResourceVersion)
             {
                 dbManager.BeginTransaction();
 
-                dbManager.Execute("UPDATE ConfigRow SET ResourceVersion = ? WHERE Id = ?", response.LatestVersion, 1);
+                dbManager.Execute("UPDATE ConfigRow SET ResourceVersion = ? WHERE Id = ?", response.latestVersion, 1);
 
                 Resource r;
-                RepeatedField<Resource> list = response.List;
-                for (int i = 0; i < list.Count; i++)
+                Resource[] list = response.list;
+                for (int i = 0; i < list.Length; i++)
                 {
                     r = list[i];
-                    dbManager.Execute("DELETE FROM ResourceRow WHERE Code = ? AND Lan = ?", r.Code, r.Lan);
+                    dbManager.Execute("DELETE FROM ResourceRow WHERE Code = ? AND Lan = ?", r.code, r.lan);
                     dbManager.Insert(new ResourceRow
                     {
-                        Code = r.Code,
-                        Lan = r.Lan,
-                        Desc = r.Desc
+                        Code = r.code,
+                        Lan = r.lan,
+                        Desc = r.desc
                     });
                 }
 
                 dbManager.Commit();
-                Debug.Log(list.Count + " ResourceRow records updated.");
+                Debug.Log(list.Length + " ResourceRow records updated.");
             }
         }
 
