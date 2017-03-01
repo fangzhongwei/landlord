@@ -23,7 +23,7 @@ namespace Assets.Scripts.App.Helper
             cardTagDic.Add(111,"card_cj");
             cardTagDic.Add(112,"card_cq");
             cardTagDic.Add(113,"card_ck");
-            cardTagDic.Add(114,"card_cq");
+            cardTagDic.Add(114,"card_ca");
             cardTagDic.Add(115,"card_c2");
 
             cardTagDic.Add(203,"card_d3");

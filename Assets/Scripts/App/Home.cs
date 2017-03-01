@@ -136,7 +136,7 @@ public class Home : HttpMonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("game");
+        SceneManager.LoadScene("play");
     }
 
     private void ShowBalance(string diamondAmount)

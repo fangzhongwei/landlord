@@ -13,13 +13,15 @@ public class Game : WebSocketMonoBehaviour {
     // Use this for initialization
 	void Start ()
 	{
-	    FindBaseUis();
-        AddDBManager();
+//	    FindBaseUis();
+//        AddDBManager();
 	    SeatWatch watch = new SeatWatch();
 	    watch.cards = "311,211,412,312,212,112,413,313,213,113,414,314,214,114,415,315,215,115,516,517";
 	    //watch.cards = "411,311,211,412,312,212,112,413,313,213,113";
 	    //.cards = "411,311,211,412,312";
-	    //watch.cards = "516,517";
+//	    watch.cards = "516,517";
+//	    watch.cards = "517";
+	    watch.cards = "103,104,105,106,107,108,109,110,111,112,113,114,115,203,204,205,206,207,208,209";
 	    RenderWatch(watch);
 	    //StartWebSocket("ws://127.0.0.1:9000/greeter");
 	}
@@ -129,21 +131,18 @@ public class Game : WebSocketMonoBehaviour {
         var length = cardIdArray.Length;
         float mid = (float)length / 2;
         GameObject cardObj;
+        string objTag;
+        Vector3 transformLocalPosition;
         for (int i = 0; i < length; i++)
         {
-            cardObj = GameObject.FindGameObjectWithTag(CardHelper.GetInstance().GetTag(int.Parse(cardIdArray[i])));
+            objTag = CardHelper.GetInstance().GetTag(int.Parse(cardIdArray[i]));
+            cardObj = GameObject.FindGameObjectWithTag(objTag);
 
-            cardObj.transform.position = new Vector3((i - mid) * 50.0f, 0, 0);
-            cardObj.transform.localScale = new Vector3(2, 2, 2);
-            cardObj.AddComponent<CardAttr>().idx = i;
-            cardObj.AddComponent<CardAttr>().inHand = true;
-            cardObj.AddComponent<CardAttr>().ready2go = false;
-
-//            base.OnHover()
-//            DraggablePanel
-//            UISprite
+            transformLocalPosition = new Vector3((i - mid) * 0.15f, 0, - 8.0f + (length - i - 1) * 0.001f);
+            cardObj.transform.localPosition = transformLocalPosition;
+            cardObj.GetComponent<CardAttr>().idx = i;
+            cardObj.GetComponent<CardAttr>().ready2go = false;
+            Debug.Log(string.Format("{0}, postion:{1}", cardObj.tag, cardObj.transform.position));
         }
     }
-
-
 }
