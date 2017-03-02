@@ -138,6 +138,17 @@ namespace App.Helper
             return simpleDataRows[0]["Token"].ToString();
         }
 
+        public SessionRow LoadSession(SimpleSQLManager dbManager)
+        {
+            List<SessionRow> sessionRows = dbManager.Query<SessionRow>("SELECT * FROM SessionRow WHERE Id = 1");
+
+            if (sessionRows == null || sessionRows.Count == 0)
+            {
+                return null;
+            }
+            return sessionRows[0];
+        }
+
         public string LoadLan(SimpleSQLManager dbManager)
         {
             SimpleDataTable dt = dbManager.QueryGeneric("SELECT Lan FROM ConfigRow WHERE Id = 1");

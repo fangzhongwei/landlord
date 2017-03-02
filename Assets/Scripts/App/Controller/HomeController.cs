@@ -95,6 +95,7 @@ public class HomeController : HttpMonoBehaviour
                 }
                 default:
                 {
+                    Debug.LogError("LoginByTokenCallback:" + response.code);
                     ShowMessage(response.code);
                     break;
                 }
@@ -133,13 +134,14 @@ public class HomeController : HttpMonoBehaviour
                 case "0":
                 {
                     string diamondAmount = response.ext1;
-                    ShowBalance(diamondAmount);
+                    ShowBalance(DataHelper.GetInstance().LoadSession(dbManager).Mobile + "," + diamondAmount);
                     dataType = 3;
                     CheckGameStatus();
                     break;
                 }
                 default:
                 {
+                    Debug.LogError("QueryDiamonAmountCallback:" + response.code);
                     ShowMessage(response.code);
                     break;
                 }
@@ -175,6 +177,7 @@ public class HomeController : HttpMonoBehaviour
                 }
                 default:
                 {
+                    Debug.LogError("CheckGameStatusCallback:" + response.code);
                     ShowMessage(response.code);
                     break;
                 }
