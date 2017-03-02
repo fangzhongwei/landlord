@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using App.Base;
+﻿using App.Base;
 using App.Helper;
 using App.VO;
 using Assets.Scripts.App.Helper;
@@ -12,44 +11,20 @@ public class GameController : WebSocketMonoBehaviour {
     // Use this for initialization
 	void Start ()
 	{
-//	    FindBaseUis();
-//        AddDBManager();
-	    SeatWatch watch = new SeatWatch();
-	    watch.cards = "311,211,412,312,212,112,413,313,213,113,414,314,214,114,415,315,215,115,516,517";
-	    //watch.cards = "411,311,211,412,312,212,112,413,313,213,113";
-	    //.cards = "411,311,211,412,312";
-//	    watch.cards = "516,517";
-//	    watch.cards = "517";
-	    watch.cards = "103,104,105,106,107,108,109,110,111,112,113,114,115,203,204,205,206,207,208,209";
-	    RenderWatch(watch);
-	    //StartWebSocket("ws://127.0.0.1:9000/greeter");
+	    FindBaseUis();
+        AddDBManager();
+	    StartWebSocket(Constants.WS_ADDRESS);
 	}
 
-    private List<GameObject> cubes = new List<GameObject>();
-
-	// Update is called once per frame
-	void Update () {
-	    // timer -= Time.deltaTime;
-	    //if (timer <= 0) {
-	       //Debug.Log(string.Format("Timer1 is up !!! time=${0}", Time.time));
-	        //Send(Time.time.ToString().GetASCIIBytes());
-	        // timer = 1.0f;
-	    // }
-
-	    foreach (GameObject c in cubes.ToArray())
-	    {
-	        if (c != null)
-	        {
-	            Vector3 translation = Vector3.forward * 1;
-	            Vector3 transformDirection = Camera.main.transform.TransformDirection(translation);
-	            c.transform.position += (transformDirection);
-	        }
-	    }
-	}
-
-    public void DoSomething()
+    public void StartPlay ()
     {
-        Debug.Log("you found me.");
+        SocketRequest req = new SocketRequest();
+        req.p1 = GUIDHelper.generate();
+        req.p2 = "join";
+        req.p3 = DataHelper.GetInstance().LoadToken(dbManager);
+        req.p4 = SystemInfo.deviceUniqueIdentifier;
+        req.p5 = "10";
+        Send(ProtoHelper.Proto2Bytes(req));
     }
 
     public override void HandleSocketResponse(SocketResponse socketResponse)
@@ -124,6 +99,7 @@ public class GameController : WebSocketMonoBehaviour {
         return watch;
     }
 
+    //0.56, 0.1, 0.82
     private void RenderWatch(SeatWatch watch)
     {
         var cardIdArray = watch.cards.Split(Constants.CARDS_SEPERATOR);

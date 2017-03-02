@@ -1,5 +1,4 @@
 ﻿using ConsoleApplication.Helper;
-using UnityEngine;
 
 namespace App.Base
 {

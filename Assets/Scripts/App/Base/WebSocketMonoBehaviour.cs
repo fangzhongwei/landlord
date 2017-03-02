@@ -79,13 +79,20 @@ namespace App.Base
 
         protected void Send(byte[] buffer)
         {
-            //fill up the buffer with data
-            webSocket.Send(buffer);
+            webSocket.Send(DESHelper.EncodeBytes(GZipHelper.compress(buffer), AppContext.GetInstance().getDesKey()));
         }
 
         private void OnWebSocketOpen(WebSocket webSocket)
         {
-            Debug.Log("WebSocket Open!");
+            Debug.Log("WebSocket open! now login.");
+            SocketRequest req = new SocketRequest();
+            req.p1 = GUIDHelper.generate();
+            req.p2 = "login";
+
+            req.p3 = DataHelper.GetInstance().LoadToken(dbManager);
+            req.p4 = SystemInfo.deviceUniqueIdentifier;
+
+            webSocket.Send(DESHelper.EncodeBytes(GZipHelper.compress(ProtoHelper.Proto2Bytes(req)), AppContext.GetInstance().getDesKey()));
         }
 
         private void OnMessageReceived(WebSocket webSocket, string message)

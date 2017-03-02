@@ -64,6 +64,7 @@ namespace App.Base
             request.SetHeader("AI", actionId.ToString());
             request.SetHeader("TK", ignoreSession(actionId) ? Constants.DEFAULT_TOKEN: DataHelper.GetInstance().LoadToken(dbManager));
             request.SetHeader("FP", SystemInfo.deviceUniqueIdentifier);
+            request.SetHeader("X-Real-Ip", "192.168.15.100");
             request.ConnectTimeout = TimeSpan.FromSeconds(30);
             request.RawData = encodeBytes;
             request.Send();

@@ -2,10 +2,12 @@
 {
     public class Constants
     {
-        public const string COMMON_DISPATCH_URL = "http://43.254.3.198/v1.0-route";
+//        public const string COMMON_DISPATCH_URL = "http://43.254.3.198/v1.0-route";
+        public const string COMMON_DISPATCH_URL = "http://127.0.0.1:8080/v1.0-route";
         public const string DEFAULT_TOKEN = "0";
         public const string VERSION = "1.0.0";
         public const string DEFAULT_KEY = "19B313BB9FD9F9A8A1D0E82590DD77B9";
+        public const string WS_ADDRESS =  "ws://127.0.0.1:9000/greeter";
 
         public const int CLIENT_ID = 1;
 
@@ -22,11 +24,9 @@
         public const int API_GET_CHANNEL_LIST = 2003;
         public const int API_DEPOSIT_REQUEST = 2004;
         public const int API_QUERY_DEPOSIT = 2005;
-
-        public const string RESOURCES_DB_FILE_PATH = "DB/AppDB";
+        public const int API_CHECK_GAME_STATUS = 2006;
 
         public static char[] CARDS_SEPERATOR = new char[1]{','};
-
 
     }
 }

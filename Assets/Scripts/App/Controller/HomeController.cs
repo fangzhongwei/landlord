@@ -57,6 +57,9 @@ public class HomeController : HttpMonoBehaviour
             case 2:
                 QueryDiamonAmountCallback(data);
                 break;
+            case 3:
+                CheckGameStatusCallback(data);
+                break;
         }
     }
 
@@ -104,6 +107,11 @@ public class HomeController : HttpMonoBehaviour
         HttpPost(Constants.API_QUERY_DIAMOND_AMOUNT, null);
     }
 
+    private void CheckGameStatus()
+    {
+        HttpPost(Constants.API_CHECK_GAME_STATUS, null);
+    }
+
     private void QueryDiamonAmountCallback(byte[] data)
     {
         dataType = 0;
@@ -126,6 +134,43 @@ public class HomeController : HttpMonoBehaviour
                 {
                     string diamondAmount = response.ext1;
                     ShowBalance(diamondAmount);
+                    dataType = 3;
+                    CheckGameStatus();
+                    break;
+                }
+                default:
+                {
+                    ShowMessage(response.code);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void CheckGameStatusCallback(byte[] data)
+    {
+        dataType = 0;
+        CheckGameStatusResp response = null;
+        try
+        {
+            response = Serializer.Deserialize<CheckGameStatusResp>(new MemoryStream(data));
+        }
+        catch (Exception)
+        {
+            Debug.LogError("SimpleApiResponse parse error");
+            ShowMessage(ErrorCode.EC_PARSE_DATA_ERROR);
+        }
+
+        if (response != null)
+        {
+            switch (response.code)
+            {
+                case "0":
+                {
+                    if (response.reconnect)
+                    {
+                        SceneManager.LoadScene("play");
+                    }
                     break;
                 }
                 default:
