@@ -24,5 +24,8 @@
 
         public const string EC_GAME_INVALID_DATA = "EC_GAME_INVALID_DATA";
 
+        public const string PLAY_NO_CARD_SELECTED = "PLAY_NO_CARD_SELECTED";
+        public const string PLAY_INVALID_CARDS_TYPE = "PLAY_INVALID_CARDS_TYPE";
+
     }
 }

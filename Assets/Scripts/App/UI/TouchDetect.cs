@@ -30,7 +30,10 @@ public class TouchDetect : MonoBehaviour {
         if (Physics.Raycast(ray, out hit))
         {
             Debug.DrawLine(touchPosition, hit.transform.position);
-            TouchManager.GetInstance().OnFocus(hit.transform);
+            if (hit.transform.gameObject.GetComponent<CardAttr>() != null && hit.transform.gameObject.GetComponent<CardAttr>().inHand)
+            {
+                TouchManager.GetInstance().OnFocus(hit.transform);
+            }
         }
     }
 }

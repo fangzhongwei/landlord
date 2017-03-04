@@ -4,52 +4,12 @@ using App.Helper;
 using BestHTTP;
 using ConsoleApplication.Helper;
 using ProtoBuf;
-using SimpleSQL;
 using UnityEngine;
 
 namespace App.Base
 {
-    public abstract class HttpMonoBehaviour : MonoBehaviour
+    public abstract class HttpMonoBehaviour : BaseMonoBehaviour
     {
-        protected UILabel labelMessage;
-
-        protected SimpleSQLManager dbManager;
-        protected void AddDBManager()
-        {
-            dbManager = GameObject.FindGameObjectWithTag("appdbmanager").GetComponent<SimpleSQLManager>();
-        }
-
-        // Use this for initialization
-        protected void FindBaseUis()
-        {
-            labelMessage = GameObject.FindWithTag("message").GetComponent<UILabel>();
-        }
-
-        protected void CleanMessage()
-        {
-            labelMessage.text = "";
-        }
-
-        protected string LocalToken()
-        {
-            return DataHelper.GetInstance().LoadToken(dbManager);
-        }
-
-        protected void ShowMessage(string code)
-        {
-            if (ErrorCode.EC_SSO_SESSION_EXPIRED.Equals(code) || ErrorCode.EC_SSO_TOKEN_DEVICE_MISMATCH.Equals(code))
-            {
-                DataHelper.GetInstance().CleanProfile(dbManager);
-                return;
-            }
-            if (code.Equals(ErrorCode.EC_SSO_SESSION_REPELLED))
-            {
-                //SceneManager.LoadScene("login");
-                return;
-            }
-            labelMessage.text = DataHelper.GetInstance().GetDescByCode(dbManager, code, DataHelper.GetInstance().LoadLan(dbManager));
-        }
-
         public void HttpPost(int actionId, byte[] data)
         {
             //Debug.Log(string.Format("http post:[actionId:{0},dataLenght:{1}]", actionId, data == null ? 0 : data.Length));
@@ -62,7 +22,7 @@ namespace App.Base
             HTTPRequest request = new HTTPRequest(new Uri(Constants.COMMON_DISPATCH_URL), HTTPMethods.Post, OnRequestFinished);
             request.SetHeader("TI", GUIDHelper.generate());
             request.SetHeader("AI", actionId.ToString());
-            request.SetHeader("TK", ignoreSession(actionId) ? Constants.DEFAULT_TOKEN: DataHelper.GetInstance().LoadToken(dbManager));
+            request.SetHeader("TK", ignoreSession(actionId) ? Constants.DEFAULT_TOKEN: LocalToken());
             request.SetHeader("FP", SystemInfo.deviceUniqueIdentifier);
             request.SetHeader("X-Real-Ip", "192.168.15.100");
             request.ConnectTimeout = TimeSpan.FromSeconds(30);

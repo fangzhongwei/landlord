@@ -5,49 +5,15 @@ using App.Helper;
 using BestHTTP.WebSocket;
 using ConsoleApplication.Helper;
 using ProtoBuf;
-using SimpleSQL;
 using UnityEngine;
 
 namespace App.Base
 {
-    public abstract class WebSocketMonoBehaviour : MonoBehaviour
+    public abstract class WebSocketMonoBehaviour : BaseMonoBehaviour
     {
         private WebSocket webSocket;
-        protected UILabel labelMessage;
 
-        protected SimpleSQLManager dbManager;
-        protected void AddDBManager()
-        {
-            dbManager = GameObject.FindGameObjectWithTag("appdbmanager").GetComponent<SimpleSQLManager>();
-        }
-
-        // Use this for initialization
-        protected void FindBaseUis()
-        {
-            labelMessage = GameObject.FindWithTag("message").GetComponent<UILabel>();
-        }
-
-        protected string LocalToken()
-        {
-            return DataHelper.GetInstance().LoadToken(dbManager);
-        }
-
-        protected void ShowMessage(string code)
-        {
-            if (ErrorCode.EC_SSO_SESSION_EXPIRED.Equals(code) || ErrorCode.EC_SSO_TOKEN_DEVICE_MISMATCH.Equals(code))
-            {
-                DataHelper.GetInstance().CleanProfile(dbManager);
-                return;
-            }
-            if (code.Equals(ErrorCode.EC_SSO_SESSION_REPELLED))
-            {
-                //SceneManager.LoadScene("login");
-                return;
-            }
-            labelMessage.text = DataHelper.GetInstance().GetDescByCode(dbManager, code, DataHelper.GetInstance().LoadLan(dbManager));
-        }
-
-        protected void StartWebSocket(string uri)
+        protected  void StartWebSocket(string uri)
         {
             webSocket = new WebSocket(new Uri(uri));
             webSocket.OnOpen += OnWebSocketOpen;
@@ -77,7 +43,7 @@ namespace App.Base
             webSocket.Send(str);
         }
 
-        protected void Send(byte[] buffer)
+        public void SendBytes(byte[] buffer)
         {
             webSocket.Send(DESHelper.EncodeBytes(GZipHelper.compress(buffer), AppContext.GetInstance().getDesKey()));
         }
@@ -157,10 +123,5 @@ namespace App.Base
         {
             Debug.Log("Error: " + error);
         }
-
-        //Ping
-        //Pong
-        //Streaming OnIncompleteFrame
-
     }
 }
