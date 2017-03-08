@@ -3,6 +3,8 @@
     public enum CardsType
     {
         Invalid,
+        Any,
+        None,
         Single,
         Doub,
         Seq,

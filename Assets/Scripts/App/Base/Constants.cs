@@ -28,6 +28,18 @@
         public const int API_CHECK_GAME_STATUS = 2006;
 
         public static char[] CARDS_SEPERATOR = new char[1]{','};
+        public static char[] OUTSIDE_CARDS_SEPERATOR = new char[1]{':'};
+
+
+        //
+//        WaitingStart("WS", "WaitingStart"),
+//        DecideToBeLandlord("DTBL", "DecideToBeLandlord"),
+//        WaitingOtherPlay("WOP", "WaitingOtherPlay"),
+//        TurnToPlay("TTP", "TurnToPlay"),
+//        End("END", "End");
+        public const string GAME_STATUS_DECIDE_TO_BE_LANDLORD = "DTBL";
+        public const string GAME_STATUS_WAITING_OTHER_PLAY = "WOP";
+        public const string GAME_STATUS_TURN_TO_PLAY = "TTP";
 
     }
 }

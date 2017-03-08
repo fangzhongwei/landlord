@@ -1,4 +1,5 @@
-﻿using ConsoleApplication.Helper;
+﻿using App.VO;
+using ConsoleApplication.Helper;
 
 namespace App.Base
 {
@@ -7,6 +8,8 @@ namespace App.Base
         private static readonly AppContext instance = new AppContext();
         private static string Token;
         private static string Key;
+        public SeatWatch Watch { get ; set ; }
+
         private AppContext()
         {
         }

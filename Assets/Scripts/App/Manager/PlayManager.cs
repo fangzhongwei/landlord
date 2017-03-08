@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Assets.Scripts.App.Helper;
 
 public class PlayManager
 {
@@ -50,6 +51,7 @@ public class PlayManager
 
     public List<int> AllReady2GoPoints()
     {
+        CardHelper.GetInstance().Sort(ready2GoPoints);
         return ready2GoPoints;
     }
 
@@ -59,7 +61,7 @@ public class PlayManager
     }
 
     //outside
-    public void AddOutsidePoints(List<int> points)
+    public void SetOutsidePoints(List<int> points)
     {
         pointsOutside.Clear();
         pointsOutside.AddRange(points);

@@ -26,6 +26,7 @@
 
         public const string PLAY_NO_CARD_SELECTED = "PLAY_NO_CARD_SELECTED";
         public const string PLAY_INVALID_CARDS_TYPE = "PLAY_INVALID_CARDS_TYPE";
+        public const string PLAY_NOT_BIG_ENOUGH = "PLAY_NOT_BIG_ENOUGH";
 
     }
 }

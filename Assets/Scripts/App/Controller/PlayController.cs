@@ -23,14 +23,47 @@ public class PlayController : BaseMonoBehaviour
         else
         {
             TypeWithPoints typeWithPoints = CardHelper.GetInstance().JudgeType(allReady2GoPoints);
-            Debug.Log("type:" + typeWithPoints);
-            GameObject obj;
-            foreach (int point in allReady2GoPoints)
+            Debug.Log(string.Format("type:{0},p:{1},ps{2}", typeWithPoints.cardsType, typeWithPoints.p, Join(typeWithPoints.ps)));
+            if (typeWithPoints.cardsType.Equals(CardsType.Invalid))
             {
-//                obj = GameObject.FindGameObjectWithTag(CardHelper.GetInstance().GetTag(point));
-//                obj.transform.localScale = Vector3.one * 0.4f;
+                ShowMessage(ErrorCode.PLAY_INVALID_CARDS_TYPE);
+            }
+            else if (!CardHelper.GetInstance().CanPlay(typeWithPoints))
+            {
+                ShowMessage(ErrorCode.PLAY_NOT_BIG_ENOUGH);
+            }
+            else
+            {
+                List<int> goPoints = new List<int>(allReady2GoPoints);
+
+                PlayCardsReq req = new PlayCardsReq();
+                req.typeWithPoints = typeWithPoints;
+                req.points = goPoints;
+
+                GameObject.FindGameObjectWithTag("MainCamera").GetComponent<GameController>().SendMessage("SendPlayCards", req);
+                GameObject.FindGameObjectWithTag("MainCamera").GetComponent<GameController>().SendMessage("LetItGo");
             }
         }
 
+    }
+
+    private string Join(List<int> list)
+    {
+        if (list == null || list.Count == 0)
+        {
+            return "";
+        }
+        string j = "";
+
+        foreach (int i in list)
+        {
+            j += i + ",";
+        }
+        return j.Substring(0, j.Length - 1);
+    }
+
+    public void ReSelect()
+    {
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<GameController>().SendMessage("ResetHandCards");
     }
 }
