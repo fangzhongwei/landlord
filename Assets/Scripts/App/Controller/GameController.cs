@@ -4,30 +4,31 @@ using App.Helper;
 using App.VO;
 using UnityEngine;
 
-public class GameController : WebSocketMonoBehaviour {
-
+public class GameController : WebSocketMonoBehaviour
+{
     public float timer = 1.0f;
 
     // Use this for initialization
-	void Start ()
-	{
-	    FindBaseUis();
+    void Start()
+    {
+        FindBaseUis();
         AddDBManager();
 
-	    MockUi();
+        MockUi();
 
 //	    StartWebSocket(Constants.WS_ADDRESS);
-	}
+    }
 
     private void MockUi()
     {
         SeatWatch watch = new SeatWatch();
         watch.cards = "103,104,105,106,107,108,109,110,111,112,113,114,115,204,205,206,207,208,209,210";
-        watch.outsideCards = "Any:-:303,304,305";
+        watch.landlordCards = "303,304,305";
+        watch.proCardsInfo = "None:-:-:None:-:-";
         RenderWatch(watch);
     }
 
-    public void StartPlay ()
+    public void StartPlay()
     {
         SocketRequest req = new SocketRequest();
         req.p1 = GUIDHelper.generate();
@@ -80,32 +81,36 @@ public class GameController : WebSocketMonoBehaviour {
         //    5: i32 deviceType = 0,
         //    6: string cards = "",
         //    7: string landlordCards = "",
-        //    8: i32 baseAmount = 0,
-        //    9: i32 multiples = 0,
-        //    10: string previousNickname = "",
-        //    11: i32 previousCardsCount = 0,
-        //    12: string nextNickname = "",
-        //    13: i32 nextCardsCount = 0,
-        //    14: string playStatus = "",
-        //    15: bool landlord = false,
-        //    16: string fingerPrint = "",
-        //    17: long memberId = 0,
+        //    8: string proCardsInfo = "",
+        //    9: i32 baseAmount = 0,
+        //    10: i32 multiples = 0,
+        //    11: string previousNickname = "",
+        //    12: i32 previousCardsCount = 0,
+        //    13: string nextNickname = "",
+        //    14: i32 nextCardsCount = 0,
+        //    15: string playStatus = "",
+        //    16: bool landlord = false,
+        //    17: string fingerPrint = "",
+        //    18: long memberId = 0,
+        //    19: long seatId = 0,
         SeatWatch watch = new SeatWatch();
         watch.gameId = long.Parse(socketResponse.p3);
         watch.gameType = int.Parse(socketResponse.p4);
         watch.deviceType = int.Parse(socketResponse.p5);
         watch.cards = socketResponse.p6;
-        watch.outsideCards = socketResponse.p7;
-        watch.baseAmount = int.Parse(socketResponse.p8);
-        watch.multiples = int.Parse(socketResponse.p9);
-        watch.previousNickname = socketResponse.p10;
-        watch.previousCardsCount = int.Parse(socketResponse.p11);
-        watch.nextNickname = socketResponse.p12;
-        watch.nextCardsCount = int.Parse(socketResponse.p13);
-        watch.playStatus = socketResponse.p14;
-        watch.landlord = bool.Parse(socketResponse.p15);
-        watch.fingerPrint = socketResponse.p16;
-        watch.seqInGame = int.Parse(socketResponse.p17);
+        watch.landlordCards = socketResponse.p7;
+        watch.proCardsInfo = socketResponse.p8;
+        watch.baseAmount = int.Parse(socketResponse.p9);
+        watch.multiples = int.Parse(socketResponse.p10);
+        watch.previousNickname = socketResponse.p11;
+        watch.previousCardsCount = int.Parse(socketResponse.p12);
+        watch.nextNickname = socketResponse.p13;
+        watch.nextCardsCount = int.Parse(socketResponse.p14);
+        watch.playStatus = socketResponse.p15;
+        watch.landlord = bool.Parse(socketResponse.p16);
+        watch.fingerPrint = socketResponse.p17;
+        watch.seqInGame = int.Parse(socketResponse.p18);
+        watch.seatId = long.Parse(socketResponse.p19);
 
         return watch;
     }
@@ -114,7 +119,7 @@ public class GameController : WebSocketMonoBehaviour {
     private void RenderWatch(SeatWatch watch)
     {
         AppContext.GetInstance().Watch = watch;
-        var inHandCardIdArray = watch.cards.Split(Constants.CARDS_SEPERATOR);
+        var inHandCardIdArray = watch.cards.Split(Constants.COMMA_SEPERATOR);
         var inHandCapacity = inHandCardIdArray.Length;
         List<int> pointsInHand = new List<int>(inHandCapacity);
         for (int i = 0; i < inHandCapacity; i++)
@@ -123,17 +128,21 @@ public class GameController : WebSocketMonoBehaviour {
         }
         RenderCardsInHand(pointsInHand);
 
-        string[] outsideArray = watch.outsideCards.Split(Constants.OUTSIDE_CARDS_SEPERATOR);
-        if (outsideArray.Length != 3)
+        var proInfoArray = watch.proCardsInfo.Split(Constants.COLON_SEPERATOR);
+        if (proInfoArray.Length != 4)
         {
             ShowMessage(ErrorCode.EC_GAME_INVALID_DATA);
             return;
         }
+        string cardsTypeCode2Beat = proInfoArray[0];
+        string cardsKeys2Beat = proInfoArray[1];
+        string cards4Show = proInfoArray[2];
+        string proPlayerAction = proInfoArray[3];// None, Play, Pass
 
         List<int> pointsOutside = new List<int>();
-        if (!"-".Equals(outsideArray[2]))
+        if (!"-".Equals(cards4Show))
         {
-            var outsideCardIdArray = outsideArray[2].Split(Constants.CARDS_SEPERATOR);
+            var outsideCardIdArray = cards4Show.Split(Constants.COMMA_SEPERATOR);
             var outsideCapacity = outsideCardIdArray.Length;
             for (int i = 0; i < outsideCapacity; i++)
             {
@@ -143,33 +152,58 @@ public class GameController : WebSocketMonoBehaviour {
         }
 
         string playStatus = watch.playStatus;
-        string cardTypeCode = outsideArray[0];
         List<int> keysOutside = new List<int>();
-        if (!"-".Equals(outsideArray[1]))
+        if (!"-".Equals(cardsKeys2Beat))
         {
-            var outsideKeyArray = outsideArray[1].Split(Constants.CARDS_SEPERATOR);
+            var outsideKeyArray = cardsKeys2Beat.Split(Constants.COMMA_SEPERATOR);
             foreach (string key in outsideKeyArray)
             {
                 keysOutside.Add(int.Parse(key));
             }
         }
+        CardHelper.GetInstance().SaveCurrentCardsType(cardsTypeCode2Beat, keysOutside);
 
-        CardHelper.GetInstance().SaveCurrentCardsType(cardTypeCode, keysOutside);
+        ShowBtns(playStatus);
+    }
 
-        //CardType:Keys:Cards
-
+    private void ShowBtns(string playStatus)
+    {
+        GameObject playCardsObj = GameObject.FindGameObjectWithTag("playCards");
+        GameObject passObj = GameObject.FindGameObjectWithTag("pass");
+        GameObject resetObj = GameObject.FindGameObjectWithTag("reset");
+        GameObject takeLandlordObj = GameObject.FindGameObjectWithTag("takeLandlord");
+        GameObject passLandlordObj = GameObject.FindGameObjectWithTag(" passLandlord");
         if (Constants.GAME_STATUS_DECIDE_TO_BE_LANDLORD.Equals(playStatus))
         {
-            // todo 叫地主， 不叫
+            //  takeLandlord， passLandlord
+            //  set touch unabled
+            TouchManager.GetInstance().doDetect = false;
+            playCardsObj.SetActive(false);
+            passObj.SetActive(false);
+            resetObj.SetActive(false);
+            takeLandlordObj.SetActive(true);
+            passLandlordObj.SetActive(true);
         }
         else if (Constants.GAME_STATUS_TURN_TO_PLAY.Equals(playStatus))
         {
-            // todo 出牌， 重选
-            // todo set touch enabled
+            //  playCards, , pass, reset
+            //  set touch enabled
+            TouchManager.GetInstance().doDetect = true;
+            playCardsObj.SetActive(true);
+            passObj.SetActive(true);
+            resetObj.SetActive(true);
+            takeLandlordObj.SetActive(false);
+            passLandlordObj.SetActive(false);
         }
         else if (Constants.GAME_STATUS_WAITING_OTHER_PLAY.Equals(playStatus))
         {
-            // todo set touch unabled
+            //  set touch unabled
+            TouchManager.GetInstance().doDetect = false;
+            playCardsObj.SetActive(false);
+            passObj.SetActive(false);
+            resetObj.SetActive(false);
+            takeLandlordObj.SetActive(false);
+            passLandlordObj.SetActive(false);
         }
     }
 
@@ -179,7 +213,7 @@ public class GameController : WebSocketMonoBehaviour {
         Debug.Log("render hand:" + CardHelper.GetInstance().Join(pointsInHand));
         AllCardsInHandBack();
         var length = pointsInHand.Count;
-        float mid = (float)length / 2;
+        float mid = (float) length / 2;
         GameObject cardObj;
         string objTag;
         Vector3 lp;
@@ -193,7 +227,7 @@ public class GameController : WebSocketMonoBehaviour {
 
             PlayManager.GetInstance().AddHandPoint(point);
 
-            lp = new Vector3((i - mid) * 0.15f, 0, - 8.0f + (length - i - 1) * 0.001f);
+            lp = new Vector3((i - mid) * 0.15f, 0, -8.0f + (length - i - 1) * 0.001f);
             cardObj.transform.localPosition = lp;
             SetCardGoAttr(cardObj, true, point, i, false);
         }
@@ -218,7 +252,7 @@ public class GameController : WebSocketMonoBehaviour {
         Debug.Log("render outside:" + CardHelper.GetInstance().Join(pointsOutside));
         AllCardsOutsideBack();
         var length = pointsOutside.Count;
-        float mid = (float)length / 2;
+        float mid = (float) length / 2;
         GameObject cardObj;
         string objTag;
         Vector3 lp;
@@ -233,7 +267,7 @@ public class GameController : WebSocketMonoBehaviour {
             cardObj = GameObject.FindGameObjectWithTag(objTag);
             cardObj.transform.localScale = Vector3.one * 0.5f;
 
-            lp = new Vector3((i - mid) * 0.5f, 1f, - 8.0f + (length - i - 1) * 0.001f);
+            lp = new Vector3((i - mid) * 0.5f, 1f, -8.0f + (length - i - 1) * 0.001f);
             cardObj.transform.localPosition = lp;
             SetCardGoAttr(cardObj, false, point, i, false);
         }
@@ -300,7 +334,8 @@ public class GameController : WebSocketMonoBehaviour {
         sr.p3 = LocalToken();
         sr.p4 = SystemInfo.deviceUniqueIdentifier;
         sr.p5 = AppContext.GetInstance().Watch.gameId.ToString();
-        sr.p6 = take.ToString();
+        sr.p6 = AppContext.GetInstance().Watch.seatId.ToString();
+        sr.p7 = take.ToString();
         SendBytes(ProtoHelper.Proto2Bytes(sr));
     }
 
@@ -312,10 +347,12 @@ public class GameController : WebSocketMonoBehaviour {
         sr.p3 = LocalToken();
         sr.p4 = SystemInfo.deviceUniqueIdentifier;
         sr.p5 = AppContext.GetInstance().Watch.gameId.ToString();
-        sr.p6 = AppContext.GetInstance().Watch.seqInGame.ToString();
-        sr.p7 = req.typeWithPoints.cardsType.ToString();
-        sr.p8 = req.Keys();
-        sr.p9 = CardHelper.GetInstance().Join(req.points);
+        sr.p6 = AppContext.GetInstance().Watch.seatId.ToString();
+        sr.p7 = AppContext.GetInstance().Watch.seqInGame.ToString();
+        sr.p8 = req.typeWithPoints.cardsType.ToString();
+        sr.p9 = req.Keys();
+        sr.p10 = CardHelper.GetInstance().Join(req.points);
+        sr.p11 = CardHelper.GetInstance().Join(req.handPoints);
         SendBytes(ProtoHelper.Proto2Bytes(sr));
     }
 }

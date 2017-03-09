@@ -3,10 +3,12 @@
     public class SeatWatch
     {
         public long gameId { get; set; }
+        public long seatId { get; set; }
         public int gameType { get; set; }
         public int deviceType { get; set; }
         public string cards { get; set; }
-        public string outsideCards { get; set; }
+        public string landlordCards { get; set; }
+        public string proCardsInfo { get; set; }
         public int  baseAmount { get; set; }
         public int  multiples { get; set; }
         public string previousNickname { get; set; }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class TouchManager
 {
     private static readonly TouchManager instance = new TouchManager();
+    public bool doDetect { get; set; }
     public bool touching { get; set; }
     private readonly List<Transform> touchedForms = new List<Transform>();
 

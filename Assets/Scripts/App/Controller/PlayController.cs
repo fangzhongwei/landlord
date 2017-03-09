@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using App.Base;
-using Assets.Scripts.App.Helper;
 using UnityEngine;
 
 public class PlayController : BaseMonoBehaviour
@@ -35,9 +34,11 @@ public class PlayController : BaseMonoBehaviour
             else
             {
                 List<int> goPoints = new List<int>(allReady2GoPoints);
+                List<int> handPoints = new List<int>(PlayManager.GetInstance().AllPointsInHand());
 
                 PlayCardsReq req = new PlayCardsReq();
                 req.typeWithPoints = typeWithPoints;
+                req.handPoints = handPoints;
                 req.points = goPoints;
 
                 GameObject.FindGameObjectWithTag("MainCamera").GetComponent<GameController>().SendMessage("SendPlayCards", req);

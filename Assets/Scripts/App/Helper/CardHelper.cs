@@ -523,18 +523,19 @@ public class CardHelper
 
     public bool CanPlay(TypeWithPoints typeWithPoints)
     {
-        if (twp == null)
-        {
-            twp = new TypeWithPoints();
-            twp.cardsType = CardsType.Any;
-        }
         CardsType originalType = twp.cardsType;
         CardsType readyType = typeWithPoints.cardsType;
 
+        if (originalType == CardsType.Invalid || originalType == CardsType.Pass || readyType == CardsType.Invalid || readyType == CardsType.Exist)
+        {
+            Debug.LogError("invalid card type happend!");
+            return false;
+        }
+
         switch (originalType)
         {
-            case CardsType.Any:
-                return true;
+            case CardsType.Exist:
+                return !(readyType == CardsType.Invalid || readyType == CardsType.Exist || readyType == CardsType.Pass);
             case CardsType.Single:
                 if (readyType == CardsType.DoubJoker || readyType == CardsType.Four)
                 {

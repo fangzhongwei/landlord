@@ -1,11 +1,10 @@
-﻿using App.Base;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TouchAction : MonoBehaviour
 {
     private void OnMouseEnter()
     {
-        if (GetComponent<CardAttr>().inHand)
+        if (TouchManager.GetInstance().doDetect && GetComponent<CardAttr>().inHand)
         {
             TouchManager.GetInstance().OnFocus(transform);
         }

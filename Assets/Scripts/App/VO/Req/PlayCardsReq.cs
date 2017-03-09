@@ -3,6 +3,7 @@
 public class PlayCardsReq
 {
     public TypeWithPoints typeWithPoints { get; set; }
+    public List<int> handPoints { get; set; }
     public List<int> points { get; set; }
 
     public string Keys()

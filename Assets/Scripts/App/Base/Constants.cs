@@ -27,8 +27,8 @@
         public const int API_QUERY_DEPOSIT = 2005;
         public const int API_CHECK_GAME_STATUS = 2006;
 
-        public static char[] CARDS_SEPERATOR = new char[1]{','};
-        public static char[] OUTSIDE_CARDS_SEPERATOR = new char[1]{':'};
+        public static char[] COMMA_SEPERATOR = new char[1]{','};
+        public static char[] COLON_SEPERATOR = new char[1]{':'};
 
 
         //
