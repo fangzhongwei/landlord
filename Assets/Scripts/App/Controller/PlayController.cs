@@ -48,6 +48,20 @@ public class PlayController : BaseMonoBehaviour
 
     }
 
+    public void Pass()
+    {
+        TypeWithPoints typeWithPoints = new TypeWithPoints();
+        typeWithPoints.cardsType = CardsType.Pass;
+        if (!CardHelper.GetInstance().CanPlay(typeWithPoints))
+        {
+            ShowMessage(ErrorCode.PLAY_INVALID_CARDS_TYPE);
+        }
+        else
+        {
+            GameObject.FindGameObjectWithTag("MainCamera").GetComponent<GameController>().SendMessage("Pass");
+        }
+    }
+
     private string Join(List<int> list)
     {
         if (list == null || list.Count == 0)

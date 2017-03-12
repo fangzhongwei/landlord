@@ -8,15 +8,28 @@ public class GameController : WebSocketMonoBehaviour
 {
     public float timer = 1.0f;
 
+    private GameObject playCardsObj;
+    private GameObject passObj;
+    private GameObject resetObj;
+    private GameObject takeLandlordObj;
+    private GameObject passLandlordObj;
+
     // Use this for initialization
     void Start()
     {
         FindBaseUis();
         AddDBManager();
 
-        MockUi();
 
-//	    StartWebSocket(Constants.WS_ADDRESS);
+        playCardsObj = GameObject.FindGameObjectWithTag("playCards");
+        passObj = GameObject.FindGameObjectWithTag("pass");
+        resetObj = GameObject.FindGameObjectWithTag("reset");
+        takeLandlordObj = GameObject.FindGameObjectWithTag("takeLandlord");
+        passLandlordObj = GameObject.FindGameObjectWithTag("passLandlord");
+
+        //MockUi();
+
+        StartWebSocket(Constants.WS_ADDRESS);
     }
 
     private void MockUi()
@@ -137,7 +150,7 @@ public class GameController : WebSocketMonoBehaviour
         string cardsTypeCode2Beat = proInfoArray[0];
         string cardsKeys2Beat = proInfoArray[1];
         string cards4Show = proInfoArray[2];
-        string proPlayerAction = proInfoArray[3];// None, Play, Pass
+        string proPlayerAction = proInfoArray[3]; // None, Play, Pass
 
         List<int> pointsOutside = new List<int>();
         if (!"-".Equals(cards4Show))
@@ -168,11 +181,6 @@ public class GameController : WebSocketMonoBehaviour
 
     private void ShowBtns(string playStatus)
     {
-        GameObject playCardsObj = GameObject.FindGameObjectWithTag("playCards");
-        GameObject passObj = GameObject.FindGameObjectWithTag("pass");
-        GameObject resetObj = GameObject.FindGameObjectWithTag("reset");
-        GameObject takeLandlordObj = GameObject.FindGameObjectWithTag("takeLandlord");
-        GameObject passLandlordObj = GameObject.FindGameObjectWithTag(" passLandlord");
         if (Constants.GAME_STATUS_DECIDE_TO_BE_LANDLORD.Equals(playStatus))
         {
             //  takeLandlord， passLandlord
@@ -330,7 +338,7 @@ public class GameController : WebSocketMonoBehaviour
     {
         SocketRequest sr = new SocketRequest();
         sr.p1 = GUIDHelper.generate();
-        sr.p2 = "takeLanlord";
+        sr.p2 = "takeLandlord";
         sr.p3 = LocalToken();
         sr.p4 = SystemInfo.deviceUniqueIdentifier;
         sr.p5 = AppContext.GetInstance().Watch.gameId.ToString();
@@ -354,5 +362,13 @@ public class GameController : WebSocketMonoBehaviour
         sr.p10 = CardHelper.GetInstance().Join(req.points);
         sr.p11 = CardHelper.GetInstance().Join(req.handPoints);
         SendBytes(ProtoHelper.Proto2Bytes(sr));
+    }
+
+    public void Pass()
+    {
+        PlayCardsReq req = new PlayCardsReq();
+        req.typeWithPoints = new TypeWithPoints();
+        req.typeWithPoints.cardsType = CardsType.Pass;
+        SendPlayCards(req);
     }
 }

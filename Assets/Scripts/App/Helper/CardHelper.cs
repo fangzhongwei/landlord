@@ -488,7 +488,7 @@ public class CardHelper
     {
         if (list == null || list.Count == 0)
         {
-            return "";
+            return "-";
         }
         string j = "";
 
