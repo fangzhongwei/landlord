@@ -20,15 +20,14 @@ public class GameController : WebSocketMonoBehaviour
         FindBaseUis();
         AddDBManager();
 
-
         playCardsObj = GameObject.FindGameObjectWithTag("playCards");
         passObj = GameObject.FindGameObjectWithTag("pass");
         resetObj = GameObject.FindGameObjectWithTag("reset");
         takeLandlordObj = GameObject.FindGameObjectWithTag("takeLandlord");
         passLandlordObj = GameObject.FindGameObjectWithTag("passLandlord");
 
-        //MockUi();
-
+        // MockUi();
+        HideAllBtns();
         StartWebSocket(Constants.WS_ADDRESS);
     }
 
@@ -37,7 +36,7 @@ public class GameController : WebSocketMonoBehaviour
         SeatWatch watch = new SeatWatch();
         watch.cards = "103,104,105,106,107,108,109,110,111,112,113,114,115,204,205,206,207,208,209,210";
         watch.landlordCards = "303,304,305";
-        watch.proCardsInfo = "None:-:-:None:-:-";
+        watch.proCardsInfo = "Exist:-:303,304,305:None";
         RenderWatch(watch);
     }
 
@@ -205,14 +204,19 @@ public class GameController : WebSocketMonoBehaviour
         }
         else if (Constants.GAME_STATUS_WAITING_OTHER_PLAY.Equals(playStatus))
         {
-            //  set touch unabled
-            TouchManager.GetInstance().doDetect = false;
-            playCardsObj.SetActive(false);
-            passObj.SetActive(false);
-            resetObj.SetActive(false);
-            takeLandlordObj.SetActive(false);
-            passLandlordObj.SetActive(false);
+            HideAllBtns();
         }
+    }
+
+    private void HideAllBtns()
+    {
+        //  set touch unabled
+        TouchManager.GetInstance().doDetect = false;
+        playCardsObj.SetActive(false);
+        passObj.SetActive(false);
+        resetObj.SetActive(false);
+        takeLandlordObj.SetActive(false);
+        passLandlordObj.SetActive(false);
     }
 
     public void RenderCardsInHand(List<int> list)
@@ -326,12 +330,14 @@ public class GameController : WebSocketMonoBehaviour
 
     public void TakeLanlord()
     {
+        HideAllBtns();
         DoTake(true);
     }
 
     public void GiveupLanlord()
     {
-        DoTake(true);
+        HideAllBtns();
+        DoTake(false);
     }
 
     private void DoTake(bool take)
@@ -349,6 +355,7 @@ public class GameController : WebSocketMonoBehaviour
 
     public void SendPlayCards(PlayCardsReq req)
     {
+        HideAllBtns();
         SocketRequest sr = new SocketRequest();
         sr.p1 = GUIDHelper.generate();
         sr.p2 = "playCards";
@@ -366,6 +373,7 @@ public class GameController : WebSocketMonoBehaviour
 
     public void Pass()
     {
+        HideAllBtns();
         PlayCardsReq req = new PlayCardsReq();
         req.typeWithPoints = new TypeWithPoints();
         req.typeWithPoints.cardsType = CardsType.Pass;
