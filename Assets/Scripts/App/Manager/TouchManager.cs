@@ -53,7 +53,7 @@ public class TouchManager
         }
     }
 
-    private void Remove(Transform t)
+    public void Remove(Transform t)
     {
         touchedForms.Remove(t);
         ChangeColor(t, Color.white);
@@ -61,6 +61,7 @@ public class TouchManager
 
     public void TouchEnded()
     {
+        doDetect = false;
         int point;
         bool ready2Go;
         foreach (Transform t in  touchedForms)
@@ -83,10 +84,16 @@ public class TouchManager
 
         touching = false;
         touchedForms.Clear();
+        doDetect = true;
     }
 
     private void ChangeColor(Transform t, Color c)
     {
         t.FindChild("front").GetComponent<MeshRenderer>().material.color = c;
+    }
+
+    public bool HasForms()
+    {
+        return touchedForms.Count > 0;
     }
 }

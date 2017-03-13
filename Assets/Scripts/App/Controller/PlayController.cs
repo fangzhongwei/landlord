@@ -14,6 +14,8 @@ public class PlayController : BaseMonoBehaviour
     {
         List<int> allReady2GoPoints = PlayManager.GetInstance().AllReady2GoPoints();
 
+        Debug.Log("out before play:" + CardHelper.GetInstance().Join(PlayManager.GetInstance().AllPointsOutside()));
+
         if (allReady2GoPoints.Count == 0)
         {
             Debug.Log("no card selected.");
@@ -21,6 +23,8 @@ public class PlayController : BaseMonoBehaviour
         }
         else
         {
+            Debug.Log("ready2GoPoints:" + CardHelper.GetInstance().Join(allReady2GoPoints));
+
             TypeWithPoints typeWithPoints = CardHelper.GetInstance().JudgeType(allReady2GoPoints);
             Debug.Log(string.Format("type:{0},p:{1},ps{2}", typeWithPoints.cardsType, typeWithPoints.p, Join(typeWithPoints.ps)));
             if (typeWithPoints.cardsType.Equals(CardsType.Invalid))
@@ -42,10 +46,8 @@ public class PlayController : BaseMonoBehaviour
                 req.points = goPoints;
 
                 GameObject.FindGameObjectWithTag("MainCamera").GetComponent<GameController>().SendMessage("SendPlayCards", req);
-                GameObject.FindGameObjectWithTag("MainCamera").GetComponent<GameController>().SendMessage("LetItGo");
             }
         }
-
     }
 
     public void Pass()

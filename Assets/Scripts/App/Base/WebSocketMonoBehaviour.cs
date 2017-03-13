@@ -54,7 +54,6 @@ namespace App.Base
             SocketRequest req = new SocketRequest();
             req.p1 = GUIDHelper.generate();
             req.p2 = "login";
-
             req.p3 = DataHelper.GetInstance().LoadToken(dbManager);
             req.p4 = SystemInfo.deviceUniqueIdentifier;
 

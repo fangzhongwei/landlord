@@ -15,12 +15,22 @@ public class TouchDetect : MonoBehaviour {
 	            TouchManager.GetInstance().touching = true;
 	            FindCard(new Vector3(Input.touches[0].position.x, Input.touches[0].position.y, -10.0f));
 	        }
-	        else if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
+	        else if (Input.touches[0].phase == TouchPhase.Ended)
 	        {
-	            TouchManager.GetInstance().TouchEnded();
+	            if (TouchManager.GetInstance().HasForms())
+	            {
+	                TouchEndCallback();
+	                Invoke("TouchEndCallback", 0.2f);
+	                Invoke("TouchEndCallback", 0.5f);
+	            }
 	        }
 	    }
 	}
+
+    private void TouchEndCallback()
+    {
+        TouchManager.GetInstance().TouchEnded();
+    }
 
     private void FindCard (Vector3 touchPosition)
     {

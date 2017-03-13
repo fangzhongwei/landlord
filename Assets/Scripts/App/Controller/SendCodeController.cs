@@ -116,7 +116,7 @@ public class SendCodeController : HttpMonoBehaviour
                         ShowMessage(ErrorCode.MSG_CODE_SENDED);
                         resend = true;
                         lastChannel = response.channel;
-                        seconds = 60;
+                        seconds = 5;
                         timing = true;
                         break;
                     }

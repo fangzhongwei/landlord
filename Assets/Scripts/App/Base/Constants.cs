@@ -7,6 +7,7 @@
         public const string DEFAULT_TOKEN = "0";
         public const string VERSION = "1.0.0";
         public const string DEFAULT_KEY = "19B313BB9FD9F9A8A1D0E82590DD77B9";
+//        public const string WS_ADDRESS =  "ws://192.168.3.239:9000/greeter";
         public const string WS_ADDRESS =  "ws://172.16.7.100:9000/greeter";
 //        public const string WS_ADDRESS =  "ws://43.254.3.198:9000/greeter";
 

@@ -50,7 +50,10 @@ public class PlayManager
 
     public List<int> AllReady2GoPoints()
     {
-        CardHelper.GetInstance().Sort(ready2GoPoints);
+        if (ready2GoPoints.Count > 0)
+        {
+            CardHelper.GetInstance().Sort(ready2GoPoints);
+        }
         return ready2GoPoints;
     }
 
@@ -68,11 +71,11 @@ public class PlayManager
 
     public List<int> AllPointsOutside()
     {
-        return ready2GoPoints;
+        return pointsOutside;
     }
 
     public void ClearAlllOutside()
     {
-        ready2GoPoints.Clear();
+        pointsOutside.Clear();
     }
 }

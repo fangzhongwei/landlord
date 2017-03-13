@@ -13,9 +13,9 @@ public class PlayCardsReq
         {
             ks += typeWithPoints.p + ",";
         }
-        if (points != null && points.Count != 0)
+        if (typeWithPoints.ps != null && typeWithPoints.ps.Count != 0)
         {
-            foreach (int point in points)
+            foreach (int point in typeWithPoints.ps)
             {
                 ks += point + ",";
             }
