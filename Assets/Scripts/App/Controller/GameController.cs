@@ -82,6 +82,7 @@ public class GameController : WebSocketMonoBehaviour
         //    18: long memberId = 0,
         //    19: long seatId = 0,
         //    20: int seqInGame = 0,
+
         SeatWatch watch = new SeatWatch();
         watch.gameId = long.Parse(socketResponse.p3);
         watch.gameType = int.Parse(socketResponse.p4);
@@ -100,6 +101,32 @@ public class GameController : WebSocketMonoBehaviour
         watch.fingerPrint = socketResponse.p17;
         watch.seqInGame = int.Parse(socketResponse.p20);
         watch.seatId = long.Parse(socketResponse.p19);
+
+//        if ()
+//        {
+//            Debug.Log("p1:" + socketResponse.p1);
+//            Debug.Log("p2:" + socketResponse.p2);
+//            Debug.Log("p3:" + socketResponse.p3);
+//            Debug.Log("p4:" + socketResponse.p4);
+//            Debug.Log("p5:" + socketResponse.p5);
+//            Debug.Log("p6:" + socketResponse.p6);
+//            Debug.Log("p7:" + socketResponse.p7);
+//            Debug.Log("p8:" + socketResponse.p8);
+//            Debug.Log("p9:" + socketResponse.p9);
+//            Debug.Log("p10:" + socketResponse.p10);
+//            Debug.Log("p11:" + socketResponse.p11);
+//            Debug.Log("p12:" + socketResponse.p12);
+//            Debug.Log("p13:" + socketResponse.p13);
+//            Debug.Log("p14:" + socketResponse.p14);
+//            Debug.Log("p15:" + socketResponse.p15);
+//            Debug.Log("p16:" + socketResponse.p16);
+//            Debug.Log("p17:" + socketResponse.p17);
+//            Debug.Log("p18:" + socketResponse.p18);
+//            Debug.Log("p19:" + socketResponse.p19);
+//            Debug.Log("p20:" + socketResponse.p20);
+//            Debug.Log("p21:" + socketResponse.p21);
+//            Debug.Log("p22:" + socketResponse.p22);
+//        }
 
         return watch;
     }

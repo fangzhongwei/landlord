@@ -98,10 +98,10 @@ public class GameUIRender : BaseMonoBehaviour
         }
         CardHelper.GetInstance().SaveCurrentCardsType(cardsTypeCode2Beat, keysOutside);
 
-        ShowBtns(playStatus);
+        ShowBtns(playStatus, cardsTypeCode2Beat);
     }
 
-    private void ShowBtns(string playStatus)
+    private void ShowBtns(string playStatus, string cardsTypeCode2Beat)
     {
         if (Constants.GAME_STATUS_DECIDE_TO_BE_LANDLORD.Equals(playStatus))
         {
@@ -120,7 +120,14 @@ public class GameUIRender : BaseMonoBehaviour
             //  set touch enabled
             TouchManager.GetInstance().doDetect = true;
             playCardsObj.SetActive(true);
-            passObj.SetActive(true);
+            if (CardsType.Exist.ToString().Equals(cardsTypeCode2Beat))
+            {
+                passObj.SetActive(false);
+            }
+            else
+            {
+                passObj.SetActive(true);
+            }
             resetObj.SetActive(true);
             takeLandlordObj.SetActive(false);
             passLandlordObj.SetActive(false);
