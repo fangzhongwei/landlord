@@ -532,6 +532,11 @@ public class CardHelper
             return false;
         }
 
+        if (originalType != CardsType.Exist && readyType == CardsType.Pass)
+        {
+            return true;
+        }
+
         switch (originalType)
         {
             case CardsType.Exist:

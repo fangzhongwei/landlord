@@ -20,6 +20,6 @@ public class PlayCardsReq
                 ks += point + ",";
             }
         }
-        return ks.Substring(0, ks.Length - 1);
+        return ks.Equals("") ? "-" : ks.Substring(0, ks.Length - 1);
     }
 }

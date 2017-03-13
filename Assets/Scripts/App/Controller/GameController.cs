@@ -1,4 +1,5 @@
-﻿using App.Base;
+﻿using System.Collections.Generic;
+using App.Base;
 using App.Helper;
 using App.VO;
 using UnityEngine;
@@ -80,6 +81,7 @@ public class GameController : WebSocketMonoBehaviour
         //    17: string fingerPrint = "",
         //    18: long memberId = 0,
         //    19: long seatId = 0,
+        //    20: int seqInGame = 0,
         SeatWatch watch = new SeatWatch();
         watch.gameId = long.Parse(socketResponse.p3);
         watch.gameType = int.Parse(socketResponse.p4);
@@ -96,7 +98,7 @@ public class GameController : WebSocketMonoBehaviour
         watch.playStatus = socketResponse.p15;
         watch.landlord = bool.Parse(socketResponse.p16);
         watch.fingerPrint = socketResponse.p17;
-        watch.seqInGame = int.Parse(socketResponse.p18);
+        watch.seqInGame = int.Parse(socketResponse.p20);
         watch.seatId = long.Parse(socketResponse.p19);
 
         return watch;
@@ -158,8 +160,11 @@ public class GameController : WebSocketMonoBehaviour
     {
         HideAll();
         PlayCardsReq req = new PlayCardsReq();
-        req.typeWithPoints = new TypeWithPoints();
-        req.typeWithPoints.cardsType = CardsType.Pass;
+        var reqTypeWithPoints = new TypeWithPoints();
+        reqTypeWithPoints.cardsType = CardsType.Pass;
+        req.typeWithPoints = reqTypeWithPoints;
+        req.handPoints = new List<int>(PlayManager.GetInstance().AllPointsInHand());
+
         SendPlayCards(req);
     }
 

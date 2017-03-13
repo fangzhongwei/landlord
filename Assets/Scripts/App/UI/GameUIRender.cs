@@ -48,10 +48,6 @@ public class GameUIRender : BaseMonoBehaviour
         TouchManager.GetInstance().OnFocus(GameObject.FindGameObjectWithTag(CardHelper.GetInstance().GetTag(106)).transform);
         TouchManager.GetInstance().OnFocus(GameObject.FindGameObjectWithTag(CardHelper.GetInstance().GetTag(107)).transform);
         TouchManager.GetInstance().TouchEnded();
-
-
-        Debug.Log("out at beginning:" + CardHelper.GetInstance().Join(PlayManager.GetInstance().AllPointsOutside()));
-
     }
 
     //0.56, 0.1, 0.82
@@ -149,7 +145,6 @@ public class GameUIRender : BaseMonoBehaviour
     public void RenderCardsInHand(List<int> list)
     {
         List<int> pointsInHand = new List<int>(list);
-        Debug.Log("render hand:" + CardHelper.GetInstance().Join(pointsInHand));
         AllCardsInHandBack();
         var length = pointsInHand.Count;
         float mid = (float) length / 2;
@@ -188,7 +183,6 @@ public class GameUIRender : BaseMonoBehaviour
     public void RenderCardsOutside(List<int> list)
     {
         List<int> pointsOutside = new List<int>(list);
-        Debug.Log("render outside:" + CardHelper.GetInstance().Join(pointsOutside));
         AllCardsOutsideBack();
         var length = pointsOutside.Count;
         float mid = (float) length / 2;
@@ -203,7 +197,6 @@ public class GameUIRender : BaseMonoBehaviour
         {
             point = pointsOutside[i];
             objTag = CardHelper.GetInstance().GetTag(point);
-            Debug.Log("out tag:" + objTag);
             cardObj = GameObject.FindGameObjectWithTag(objTag);
             cardObj.transform.localScale = Vector3.one * 0.5f;
 
@@ -216,10 +209,8 @@ public class GameUIRender : BaseMonoBehaviour
     private void AllCardsOutsideBack()
     {
         GameObject obj;
-        Debug.Log("backs");
         foreach (int point in PlayManager.GetInstance().AllPointsOutside())
         {
-            Debug.Log("back:" + point);
             obj = GameObject.FindGameObjectWithTag(CardHelper.GetInstance().GetTag(point));
             obj.transform.localScale = Vector3.one;
             obj.transform.localPosition = new Vector3(0, 2000f, 0);
@@ -239,15 +230,10 @@ public class GameUIRender : BaseMonoBehaviour
     public void LetItGo()
     {
         List<int> allReady2GoPoints = PlayManager.GetInstance().AllReady2GoPoints();
-        Debug.Log("LetItGo:" + CardHelper.GetInstance().Join(allReady2GoPoints));
         foreach (int ready2GoPoint in allReady2GoPoints)
         {
             PlayManager.GetInstance().RemoveHandPoint(ready2GoPoint);
         }
-
-        Debug.Log("hand:" + CardHelper.GetInstance().Join(PlayManager.GetInstance().AllPointsInHand()));
-        Debug.Log("outside:" + CardHelper.GetInstance().Join(PlayManager.GetInstance().AllPointsOutside()));
-
         RenderCardsInHand(PlayManager.GetInstance().AllPointsInHand());
         RenderCardsOutside(allReady2GoPoints);
         PlayManager.GetInstance().ClearAlllReady2Go();
